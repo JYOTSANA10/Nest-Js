@@ -1,0 +1,219 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="public/css/register.css">
+</head>
+
+<body class="main" onmouseover="empty()">
+    <form name="Register" action="/register" method="post" >
+        <div>
+            <section>
+                <div class="container">
+                    <div class="s1">
+                        <div class="register">
+                            <div>
+                                <img src="public/images/logo.svg">
+                            </div>
+                            <div>
+                                <h1>Welcome !</h1>
+                            </div>
+                            <div class="user">
+                                <div class="div">
+                                    <label for="name">Name</label><br>
+                                    <input type="text" id="name" name="name">
+                                </div>
+                                <div class="div">
+                                    <label for="email">Email</label><br>
+                                    <input type="text" id="email" name="email" onkeyup="return emailValidation()"
+                                        onchange=" return emailcheck()">
+                                    <span id="email-error" class="error"></span>
+                                </div>
+                                <div class="div">
+                                    <label for="pass">Password</label><br>
+                                    <input type="text" id="pass" name="pass" onkeyup="return password()">
+                                    <span id="pass-error" class="error"></span>
+                                </div>
+                                <div class="div">
+                                    <label for="pass2">Confirm Password</label><br>
+                                    <input type="password" id="pass2" name="pass2" onkeyup="return validate()">
+                                    <span id="pass2-error" class="error"></span>
+                                </div>
+                                <div class="div">
+                                    <input type="submit" value="Sign Up" id="submit" class="submit-btn" onclick="submit()">
+                                   
+                                </div>
+                                <div class="link">
+                                    <p>Don't have an account? <a href="/login">Login Here</a></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="logo">
+                            <img src="public/images/bottom-logo.png">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </form>
+
+
+
+    <!-- <script>
+        function submit() {
+            alert("heloo..")
+            console.log("idfisr",!emailcheck() || !empty() || !emailValidation() || !password() || !validate());
+
+            if (!emailcheck() || !empty() || !emailValidation() || !password() || !validate()) {
+                document.getElementById("submit").disabled = true;
+                return false;
+
+            } else {
+                document.getElementById("submit").disabled = false;
+                return true;
+            }
+
+        }
+
+        async function emailcheck() {
+
+            email = document.getElementById('email').value;
+
+
+            var res = await fetch('http://127.0.0.1:8080/emailcheck');
+
+            var data = await res.json();
+            console.log("email", data)
+            var response = JSON.parse(JSON.stringify(data));
+            console.log("email-res", response)
+
+
+            for (var i = 0; i < response.length; i++) {
+
+                console.log(response[i].mail == email);
+
+                if (response[i].mail == email) {
+                    document.getElementById("email-error").innerHTML = "Email is already Exist";
+                     document.getElementById("submit").disabled = true;
+                    return false;
+                    break;
+                }
+                else {
+                    document.getElementById("email-error").innerHTML = "";
+                    return true;
+
+                }
+              
+
+            }
+
+        }
+
+
+        function empty() {
+            value = document.getElementById('name').value;
+            email = document.getElementById('email').value;
+            pass = document.getElementById('pass').value;
+            pass2 = document.getElementById('pass2').value;
+
+            if (value == "" || email == "" || pass == "" || pass2 == "") {
+                document.getElementById("submit").disabled = true;
+
+                return false;
+            }
+
+
+            else {
+                document.getElementById("submit").disabled = false;
+
+                return true;
+            }
+      
+
+        }
+        function emailValidation() {
+            value = document.getElementById('email').value;
+            apos = value.indexOf("@");
+            dotpos = value.lastIndexOf(".");
+            lastpos = value.length - 1;
+            if (apos < 1 || dotpos - apos < 2 || lastpos - dotpos > 3 || lastpos - dotpos < 2) {
+                document.getElementById("email-error").innerHTML = "Invalid Email Address";
+                return false;
+            } else {
+                document.getElementById("email-error").innerHTML = "";
+                return true;
+            }
+        }
+
+        function password() {
+            var pw = document.getElementById("pass").value;
+            const isWhitespace = /^(?=.*\s)/;
+            const isContainsUppercase = /^(?=.*[A-Z])/;
+            const isContainsLowercase = /^(?=.*[a-z])/;
+            const isContainsNumber = /^(?=.*[0-9])/;
+            const isContainsSymbol = /^(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹])/;
+            const isValidLength = /^.{8,16}$/;
+
+            //check empty password field  
+
+            if (isWhitespace.test(pw)) {
+
+                document.getElementById("pass-error").innerHTML = "Password must not contain Whitespaces!";
+                return false;
+            }
+            else if (!isContainsUppercase.test(pw)) {
+
+                document.getElementById("pass-error").innerHTML = "Password must have at least one Uppercase Character!";
+                return false;
+            }
+            else if (!isContainsLowercase.test(pw)) {
+
+                document.getElementById("pass-error").innerHTML = "Password must have at least one Lowercase Character!";
+                return false;
+            }
+            else if (!isContainsNumber.test(pw)) {
+
+                document.getElementById("pass-error").innerHTML = "Password must contain at least one Digit!";
+                return false;
+            }
+            else if (!isContainsSymbol.test(pw)) {
+                document.getElementById("pass-error").innerHTML = "Password must contain at least one Special Symbol!";
+                return false;
+            }
+            else if (!isValidLength.test(pw)) {
+
+                document.getElementById("pass-error").innerHTML = "Password must be 8-16 Characters Long!";
+                return false;
+            }
+
+            else if (pw == "") {
+                document.getElementById("pass-error").innerHTML = "Fill the password please!";
+                return false;
+            }
+
+
+            else {
+                document.getElementById("pass-error").innerHTML = "";
+                return true;
+            }
+            submit();
+        }
+
+        function validate() {
+            var password = document.getElementById("pass").value;
+            var confirmPassword = document.getElementById("pass2").value;
+            if (password != confirmPassword) {
+
+                document.getElementById("pass2-error").innerHTML = "Passwords does not match.";
+                return false;
+            }
+            else {
+
+                document.getElementById("pass2-error").innerHTML = "";
+                return true;
+
+            }
+        }
+    </script> -->
+</body>
+
+</html>

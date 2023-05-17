@@ -1,0 +1,75 @@
+.main{
+    background-image: url(images/auth-bg.png);
+    background-repeat: no-repeat;
+}
+.container {
+    max-width: 1170px;
+    margin: 0 auto;
+    padding: 0 100px;
+}
+*{
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    margin: 0px;
+}
+
+* {
+    box-sizing: border-box;
+}
+.s1{
+    display: grid;
+    grid-template-columns: 40% 20%;
+    justify-content: space-between;
+}
+.register{
+    padding: 50px;
+    background-color: rgba(0,0,0,0.5);
+    
+    height: 700px;
+    color: white;
+   
+}
+h1{
+    padding-top: 70px;
+}
+.user{
+    padding-top: 20px;
+    
+}
+h1{
+    color: white;
+}
+input{
+    padding: 3px;
+    /* margin-bottom: 30px; */
+    width: 100%;
+}
+.div{
+    margin-bottom: 30px;
+}
+
+#submit{
+    background-color: rgb(8, 56, 8);
+    width: 100%;
+    padding: 5px;
+    color: white;
+}
+.link{
+    margin-top: 70px;
+}
+.link a{
+    color: #A4843F;
+}
+.logo{
+    padding-top: 600px;
+}
+.fogot a{
+    color: #A4843F;
+}
+.error{
+    padding-top: 5px;
+    color: red;
+    font-size: 15px;
+}
