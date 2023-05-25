@@ -16,3 +16,13 @@ datasource db {
   role      String?    @db.VarChar(45)
 }
 
+
+model product {
+  id      Int      @id @default(autoincrement())@unique
+  name    String  @db.VarChar(255)
+  link    String?   @unique @db.VarChar(255)
+  price    Int      
+  category String   @db.VarChar(255)
+  isdeleted enum        @default(0)
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+}
