@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Render } from '@nestjs/common';
+import { Body, Controller, Get, Post, Redirect, Render,Req,Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Request } from 'express';
 import { AuthDto } from './dto';
@@ -8,17 +8,27 @@ export class AuthContoller {
   constructor(private authservice: AuthService) {}
 
   
-  // @Get('index')
-  // @Render('register.ejs')
-  // GetRegister(){
-  //   // return 'Register Get';
-  // }
+  @Get('register')
+  @Render('register.ejs')
+  GetRegister(){
+    console.log("get");
+    
+  }
 
   @Post('register')
-  register(@Body() dto: AuthDto) {
-    console.log(dto);
+  register(@Req() req, @Res() res) {
+    console.log(req.body.email);
 
-    return this.authservice.register(dto);
+    return this.authservice.register(req.body.email,req.body.pass,req, res);
+   
+  }
+ 
+
+  @Get('login')
+  @Render('login.ejs')
+  GetLogin(){
+    console.log("get-login");
+    
   }
 
   @Post('login')

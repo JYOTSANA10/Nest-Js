@@ -5,6 +5,7 @@ import { PrismaModule } from 'prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import { AdminModule } from './admin/admin.module';
 
+
 @Module({
   imports: [ConfigModule,AuthModule, UserModule,PrismaModule,AdminModule],
  

@@ -1,6 +1,5 @@
 <html>
   <head>
-    <!-- <link rel="stylesheet" href="public/css/register.css"> -->
     <style>
       .container {
         max-width: 1170px;
@@ -23,7 +22,7 @@
         grid-template-columns: 40% 30%;
         justify-content: right;
       }
-      .register {
+      .login {
         padding: 50px;
         background-color: rgba(0, 0, 0, 0.5);
 
@@ -64,7 +63,7 @@
         padding-top: 600px;
       }
       .fogot a {
-        color: #a4843f;
+        color: #1a128b;
       }
       .error {
         padding-top: 5px;
@@ -75,21 +74,17 @@
   </head>
 
   <body class="main">
-    <form name="Register" action="/auth/register" method="post">
+    <form name="Login" action="/auth/login" method="post">
       <div>
         <section>
           <div class="container">
             <div class="s1">
-              <div class="register">
+              <div class="Login">
                 <div></div>
                 <div>
                   <h1>Welcome !</h1>
                 </div>
                 <div class="user">
-                  <div class="div">
-                    <label for="name">Name</label><br />
-                    <input type="text" id="name" name="name" />
-                  </div>
                   <div class="div">
                     <label for="email">Email</label><br />
                     <input type="text" id="email" name="email" />
@@ -104,13 +99,16 @@
                   <div class="div">
                     <input
                       type="submit"
-                      value="Sign Up"
+                      value="Sign In"
                       id="submit"
                       class="submit-btn"
                     />
                   </div>
                   <div class="link">
-                    <p>Have an account? <a href="/auth/login">Login Here</a></p>
+                    <p>
+                      Don't Have an account?
+                      <a href="/auth/register">Register Here</a>
+                    </p>
                   </div>
                 </div>
               </div>

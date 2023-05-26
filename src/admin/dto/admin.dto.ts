@@ -12,6 +12,9 @@ export class AdminDto {
   @IsNotEmpty()
   name: string;
 
+ 
+  isdeleted:boolean
+
   @IsNotEmpty()
   id: number;
 
@@ -23,13 +26,33 @@ export class AdminDto {
   category: string;
 }
 
-export class UpdateProduct {
+export class UserDto {
+
+  isdeleted:boolean
+ 
   @IsNotEmpty()
   id: number;
 
+  // @IsString()
+  // @IsNotEmpty()
   name: string;
 
-  price: number;
+  // @IsEmail()
+  // @IsNotEmpty()
+  email: string;
 
-  category: string;
+}
+
+export class CategoryDto {
+
+  isdeleted:boolean
+ 
+  // @IsNotEmpty()
+  id: number;
+
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+
+ 
 }

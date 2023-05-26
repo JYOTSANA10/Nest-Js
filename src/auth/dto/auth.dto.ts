@@ -9,3 +9,4 @@ export class AuthDto{
     @IsNotEmpty()
     pass: string;
 }
+
