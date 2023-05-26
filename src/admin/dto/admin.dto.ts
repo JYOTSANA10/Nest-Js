@@ -30,16 +30,24 @@ export class UserDto {
 
   isdeleted:boolean
  
-  @IsNotEmpty()
+  // @IsNotEmpty()
   id: number;
 
-  // @IsString()
-  // @IsNotEmpty()
+  @IsString()
+  @IsNotEmpty()
   name: string;
 
-  // @IsEmail()
-  // @IsNotEmpty()
+  @IsEmail()
+  @IsNotEmpty()
   email: string;
+  
+  @IsNotEmpty()
+  role: string;
+  
+  @IsNotEmpty()
+
+  permissions: string;
+
 
 }
 

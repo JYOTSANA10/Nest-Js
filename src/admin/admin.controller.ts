@@ -60,7 +60,7 @@ export class AdminController {
   @Post('add-user')
   addUser(@Body() @Req() req, @Res() res) {
     console.log('user', req);
-    return this.adminservice.addUser(req);
+    return this.adminservice.addUser(req,res);
   }
 
   @Get('user')

@@ -78,7 +78,7 @@ export class AdminService {
           //    User    //
 
 
-  async addUser(dto: UserDto) {
+  async addUser(req,res) {
     // console.log('service', dto.category);
 
     try {
@@ -86,11 +86,14 @@ export class AdminService {
 
       const user=await this.prisma.admin_user.create({
         data:{
-            name: dto.name,
-            email: dto.email,
+            name: req.name,
+            email: req.email,
+            role: req.role,
+            permission: req.permission
         }
       })
-     return user;
+
+     res.redirect("/admin/user/")
       
     } catch (error) {
       throw error;
@@ -181,9 +184,8 @@ export class AdminService {
         }
       })
       
-      // fetch('/admin/user',{
-      //   method:'GET'
-      // })
+      
+      res.redirect("/admin/user/")
      
       
 
