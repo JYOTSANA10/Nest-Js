@@ -4,11 +4,23 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Responsive Admin Dashboard | Korsat X Parmaga</title>
+    <title>Admin Dashboard </title>
     <!-- ======= Styles ====== -->
-    <link rel="stylesheet" href="assets/css/style.css" />
+    
 
     <style>
+
+
+
+      /* Webpixels CSS */
+      /* Utility and component-centric Design System based on Bootstrap for fast, responsive UI development */
+      /* URL: https://github.com/webpixels/css */
+
+      @import url(https://unpkg.com/@webpixels/css@1.1.5/dist/index.css);
+
+      /* Bootstrap Icons */
+      @import url('https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css');
+
       /* =========== Google Fonts ============ */
       @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
 
@@ -478,70 +490,123 @@
           left: initial;
         }
       }
+
+
+
+/*Modal*/
+h4 {
+  font-weight: bold;
+  color: #fff;
+}
+.close {
+  color: #fff;
+  transform: scale(1.2)
+}
+.modal-content {
+  font-weight: bold;
+  background: linear-gradient(to bottom right,#F87E7B,#B05574);
+}
+.form-control {
+  margin: 1em 0;
+}
+.form-control:hover, .form-control:focus {
+  box-shadow: none;  
+  border-color: #fff;
+}
+.username, .password {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  border-bottom: 2px solid #eee;
+  padding-left: 0;
+  font-weight: normal;
+  background: transparent;  
+}
+.form-control::-webkit-input-placeholder {
+  color: #eee;  
+}
+.form-control:focus::-webkit-input-placeholder {
+  font-weight: bold;
+  color: #fff;
+}
+.login {
+  padding: 6px 20px;
+  border-radius: 20px;
+  background: none;
+  border: 2px solid #FAB87F;
+  color: #FAB87F;
+  font-weight: bold;
+  transition: all .5s;
+  margin-top: 1em;
+}
+.login:hover {
+  background: #FAB87F;
+  color: #fff;
+}
     </style>
   </head>
 
   <body>
     <!-- =============== Navigation ================ -->
     <div class="container">
-      <div class="navigation">
-        <ul>
-          <li>
-            <a href="#">
-              <span class="icon">
-                <ion-icon name="logo-apple"></ion-icon>
-              </span>
-              <span class="title">Admin</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="/admin">
-              <span class="icon">
-                <ion-icon name="home-outline"></ion-icon>
-              </span>
-              <span class="title">Dashboard</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="/admin/user">
-              <span class="icon">
-                <ion-icon name="people-outline"></ion-icon>
-              </span>
-              <span class="title">Users</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="/admin/products/product">
-              <span class="icon">
-                <ion-icon name="chatbubble-outline"></ion-icon>
-              </span>
-              <span class="title">Products</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="/categories/category">
-              <span class="icon">
-                <ion-icon name="help-outline"></ion-icon>
-              </span>
-              <span class="title">Category</span>
-            </a>
-          </li>
-
-
-          <li>
-            <a href="#">
-              <span class="icon">
-                <ion-icon name="log-out-outline"></ion-icon>
-              </span>
-              <span class="title">Sign Out</span>
-            </a>
-          </li>
-        </ul>
-      </div>
+        <div class="navigation">
+            <ul>
+              <li>
+                <a href="#">
+                  <span class="icon">
+                    <ion-icon name="logo-apple"></ion-icon>
+                  </span>
+                  <span class="title">Admin</span>
+                </a>
+              </li>
+    
+              <li>
+                <a href="/admin">
+                  <span class="icon">
+                    <ion-icon name="home-outline"></ion-icon>
+                  </span>
+                  <span class="title">Dashboard</span>
+                </a>
+              </li>
+    
+              <li>
+                <a href="/admin/user">
+                  <span class="icon">
+                    <ion-icon name="people-outline"></ion-icon>
+                  </span>
+                  <span class="title">Users</span>
+                </a>
+              </li>
+    
+              <li>
+                <a href="/admin/products/product">
+                  <span class="icon">
+                    <ion-icon name="chatbubble-outline"></ion-icon>
+                  </span>
+                  <span class="title">Products</span>
+                </a>
+              </li>
+    
+              <li>
+                <a href="/categories/category">
+                  <span class="icon">
+                    <ion-icon name="help-outline"></ion-icon>
+                  </span>
+                  <span class="title">Category</span>
+                </a>
+              </li>
+    
+    
+              <li>
+                <a href="#">
+                  <span class="icon">
+                    <ion-icon name="log-out-outline"></ion-icon>
+                  </span>
+                  <span class="title">Sign Out</span>
+                </a>
+              </li>
+            </ul>
+          </div>
 
       <!-- ========================= Main ==================== -->
       <div class="main">
@@ -557,262 +622,143 @@
             </label>
           </div>
 
-          <div class="user">
-            
-          </div>
+          <div class="user"></div>
         </div>
 
         <!-- ======================= Cards ================== -->
-        <div class="cardBox">
-          <div class="card">
-            <div>
-              <div class="numbers">1,504</div>
-              <div class="cardName">Daily Views</div>
-            </div>
-
-            <div class="iconBx">
-              <ion-icon name="eye-outline"></ion-icon>
-            </div>
-          </div>
-
-          <div class="card">
-            <div>
-              <div class="numbers">80</div>
-              <div class="cardName">Sales</div>
-            </div>
-
-            <div class="iconBx">
-              <ion-icon name="cart-outline"></ion-icon>
-            </div>
-          </div>
-
-          <div class="card">
-            <div>
-              <div class="numbers">284</div>
-              <div class="cardName">Comments</div>
-            </div>
-
-            <div class="iconBx">
-              <ion-icon name="chatbubbles-outline"></ion-icon>
-            </div>
-          </div>
-
-          <div class="card">
-            <div>
-              <div class="numbers">$7,842</div>
-              <div class="cardName">Earning</div>
-            </div>
-
-            <div class="iconBx">
-              <ion-icon name="cash-outline"></ion-icon>
-            </div>
-          </div>
-        </div>
 
         <!-- ================ Order Details List ================= -->
-        <div class="details">
-          <div class="recentOrders">
-            <div class="cardHeader">
-              <h2>Recent Orders</h2>
-              <a href="#" class="btn">View All</a>
+        <div class="h-screen flex-grow-1 overflow-y-lg-auto">
+          <!-- Header -->
+          <header class="bg-surface-primary border-bottom pt-6">
+            <div class="container-fluid">
+              <div class="mb-npx">
+                <div class="row align-items-center">
+                  <div class="col-sm-6 col-12 mb-4 mb-sm-0">
+                    <!-- Title -->
+                    <h1 class="h2 mb-0 ls-tight"></h1>
+                  </div>
+                  <div>
+                    <button
+                          type="button" id="editbutton" class="login-trigger btn btn-sm btn-neutral" data-target="#login" data-toggle="modal" onclick="return addCategories()">Add</button>
+                  </div>
+                 
+                <!-- Nav -->
+               
+              </div>
             </div>
+          </header>
+          <!-- Main -->
+          <main class="py-6 bg-surface-secondary">
+            <div class="container-fluid">
+              <!-- Card stats -->
+              
+              <div class="card shadow border-0 mb-7">
+                <div class="card-header">
+                  <h5 class="mb-0"></h5>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-hover table-nowrap">
+                    <thead class="thead-light">
+                      <tr>
+                        <th scope="col">Name</th>
+                        
+                        
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% for(var i=0; i<category.length; i++) { %>
+                      <tr>
+                        
+                        <td><%= category[i].name %></td>
+                        
+                        <td class="text-end">
+                          <button
+                          type="button" id="editbutton" class="login-trigger btn btn-sm btn-neutral" data-target="#login" data-toggle="modal" onclick="return editCategories('<%=category[i].id %>')">Edit</button>
 
-            <table>
-              <thead>
-                <tr>
-                  <td>Name</td>
-                  <td>Price</td>
-                  <td>Payment</td>
-                  <td>Status</td>
-                </tr>
-              </thead>
+                          <div id="login" class="modal fade" role="dialog"  >
+                            <div class="modal-dialog">
+                              
+                              <div class="modal-content">
+                                <div class="modal-body">
+                                  <button data-dismiss="modal" class="close">&times;</button>
+                                  <h4>Edit</h4>
+                                  <form>
+                                    <input type="text" name="username" class="username form-control" placeholder="Username"/>
+                                    <input type="password" name="password" class="password form-control" placeholder="password"/>
+                                    <input class="btn login" type="submit" value="Login" />
+                                  </form>
+                                </div>
+                              </div>
+                            </div>  
+                          </div>
 
-              <tbody>
-                <tr>
-                  <td>Star Refrigerator</td>
-                  <td>$1200</td>
-                  <td>Paid</td>
-                  <td><span class="status delivered">Delivered</span></td>
-                </tr>
 
-                <tr>
-                  <td>Dell Laptop</td>
-                  <td>$110</td>
-                  <td>Due</td>
-                  <td><span class="status pending">Pending</span></td>
-                </tr>
-
-                <tr>
-                  <td>Apple Watch</td>
-                  <td>$1200</td>
-                  <td>Paid</td>
-                  <td><span class="status return">Return</span></td>
-                </tr>
-
-                <tr>
-                  <td>Addidas Shoes</td>
-                  <td>$620</td>
-                  <td>Due</td>
-                  <td><span class="status inProgress">In Progress</span></td>
-                </tr>
-
-                <tr>
-                  <td>Star Refrigerator</td>
-                  <td>$1200</td>
-                  <td>Paid</td>
-                  <td><span class="status delivered">Delivered</span></td>
-                </tr>
-
-                <tr>
-                  <td>Dell Laptop</td>
-                  <td>$110</td>
-                  <td>Due</td>
-                  <td><span class="status pending">Pending</span></td>
-                </tr>
-
-                <tr>
-                  <td>Apple Watch</td>
-                  <td>$1200</td>
-                  <td>Paid</td>
-                  <td><span class="status return">Return</span></td>
-                </tr>
-
-                <tr>
-                  <td>Addidas Shoes</td>
-                  <td>$620</td>
-                  <td>Due</td>
-                  <td><span class="status inProgress">In Progress</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- ================= New Customers ================ -->
-          <div class="recentCustomers">
-            <div class="cardHeader">
-              <h2>Recent Customers</h2>
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-square btn-neutral text-danger-hover"
+                           onclick=" deleteCategories('<%=category[i].id %>')">
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                      <% } %>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="card-footer border-0 py-5">
+                  <!-- <span class="text-muted text-sm"
+                    >Showing 10 items out of 250 results found</span
+                  > -->
+                </div>
+              </div>
             </div>
-
-            <table>
-              <tr>
-                <td width="60px">
-                  <div class="imgBx">
-                    <img src="assets/imgs/customer02.jpg" alt="" />
-                  </div>
-                </td>
-                <td>
-                  <h4>
-                    David <br />
-                    <span>Italy</span>
-                  </h4>
-                </td>
-              </tr>
-
-              <tr>
-                <td width="60px">
-                  <div class="imgBx">
-                    <img src="assets/imgs/customer01.jpg" alt="" />
-                  </div>
-                </td>
-                <td>
-                  <h4>
-                    Amit <br />
-                    <span>India</span>
-                  </h4>
-                </td>
-              </tr>
-
-              <tr>
-                <td width="60px">
-                  <div class="imgBx">
-                    <img src="assets/imgs/customer02.jpg" alt="" />
-                  </div>
-                </td>
-                <td>
-                  <h4>
-                    David <br />
-                    <span>Italy</span>
-                  </h4>
-                </td>
-              </tr>
-
-              <tr>
-                <td width="60px">
-                  <div class="imgBx">
-                    <img src="assets/imgs/customer01.jpg" alt="" />
-                  </div>
-                </td>
-                <td>
-                  <h4>
-                    Amit <br />
-                    <span>India</span>
-                  </h4>
-                </td>
-              </tr>
-
-              <tr>
-                <td width="60px">
-                  <div class="imgBx">
-                    <img src="assets/imgs/customer02.jpg" alt="" />
-                  </div>
-                </td>
-                <td>
-                  <h4>
-                    David <br />
-                    <span>Italy</span>
-                  </h4>
-                </td>
-              </tr>
-
-              <tr>
-                <td width="60px">
-                  <div class="imgBx">
-                    <img src="assets/imgs/customer01.jpg" alt="" />
-                  </div>
-                </td>
-                <td>
-                  <h4>
-                    Amit <br />
-                    <span>India</span>
-                  </h4>
-                </td>
-              </tr>
-
-              <tr>
-                <td width="60px">
-                  <div class="imgBx">
-                    <img src="assets/imgs/customer01.jpg" alt="" />
-                  </div>
-                </td>
-                <td>
-                  <h4>
-                    David <br />
-                    <span>Italy</span>
-                  </h4>
-                </td>
-              </tr>
-
-              <tr>
-                <td width="60px">
-                  <div class="imgBx">
-                    <img src="assets/imgs/customer02.jpg" alt="" />
-                  </div>
-                </td>
-                <td>
-                  <h4>
-                    Amit <br />
-                    <span>India</span>
-                  </h4>
-                </td>
-              </tr>
-            </table>
-          </div>
+          </main>
         </div>
       </div>
     </div>
 
     <!-- =========== Scripts =========  -->
-    <script src="assets/js/main.js"></script>
+   
+    <script>
+
+      function deleteCategories(id) {
+        console.log(id);
+        fetch(`/categories/delete-category?id=${id}`,{
+          method: 'Post',
+        })
+
+      }
+
+      function addCategories(){
+
+        location.assign(`/categories/add-category`)
+
+      }
+
+      function editCategories(id) {
+        console.log(id);
+        // fetch(`/categories/edit-category?id=${id}`,{
+        //   method: 'GET'
+        // })
+
+        location.assign(`/categories/edit-category?id=${id}`)
+      }
+
+
+      // document.getElementById("editbutton").addEventListener("click", function(event){
+      // event.preventDefault();
+
+      // var element = document.getElementById("myDIV");
+      // element.classList.add("mystyle");
+
+
+        
+// });
+
+
+    </script>
 
     <!-- ====== ionicons ======= -->
     <script

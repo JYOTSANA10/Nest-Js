@@ -1,0 +1,136 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    
+  
+      <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
+  
+      <meta name="apple-mobile-web-app-title" content="CodePen">
+  
+      <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+  
+      <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111">
+  
+  
+  
+    
+    <title>Login Form</title>
+      <link rel="canonical" href="https://codepen.io/codot/pen/BorNdz">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    
+  <style>
+  body{
+    height: 100vh;
+    text-align: center;
+  }
+    /*Trigger Button*/
+  .login-trigger {
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(to bottom right, #B05574, #F87E7B);
+    padding: 15px 30px;
+    border-radius: 30px;
+    position: relative; 
+    top: 50%;
+  }
+  
+  /*Modal*/
+  h4 {
+    font-weight: bold;
+    color: #fff;
+  }
+  .close {
+    color: #fff;
+    transform: scale(1.2)
+  }
+  .modal-content {
+    font-weight: bold;
+    background: linear-gradient(to bottom right,#F87E7B,#B05574);
+  }
+  .form-control {
+    margin: 1em 0;
+  }
+  .form-control:hover, .form-control:focus {
+    box-shadow: none;  
+    border-color: #fff;
+  }
+  .username, .password {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    border-bottom: 2px solid #eee;
+    padding-left: 0;
+    font-weight: normal;
+    background: transparent;  
+  }
+  .form-control::-webkit-input-placeholder {
+    color: #eee;  
+  }
+  .form-control:focus::-webkit-input-placeholder {
+    font-weight: bold;
+    color: #fff;
+  }
+  .login {
+    padding: 6px 20px;
+    border-radius: 20px;
+    background: none;
+    border: 2px solid #FAB87F;
+    color: #FAB87F;
+    font-weight: bold;
+    transition: all .5s;
+    margin-top: 1em;
+  }
+  .login:hover {
+    background: #FAB87F;
+    color: #fff;
+  }
+  </style>
+  
+    
+  
+    
+    
+  </head>
+  
+  <body translate="no" class="modal-open">
+    <!--Trigger-->
+    <%if(category=='undefined'){%>
+    <form name="Login" action="/categories/add-category" method="post">
+    <% }else{ %>
+    <form name="Login" action="/categories/edit-category" method="post">
+    <% } %>
+  <div id="login" class="modal fade in" role="dialog" style="display: block;">
+    <div class="modal-dialog">
+      
+      <div class="modal-content">
+        <div class="modal-body">
+          <button data-dismiss="modal" class="close">×</button>
+          <h4>Edit Category</h4>
+          <%if(category=='undefined'){%>
+            <input type="text" name="id" class="id" placeholder="id" hidden>
+           <input type="text" name="name" class="username form-control" placeholder="Name"  >
+                  
+         <% }else{ %>
+            <input type="text" name="id" class="id" placeholder="id" value="<%= category.id%>" hidden>
+            <input type="text" name="name" class="username form-control" placeholder="Name" value="<%= category.name%>" >
+
+          <% } %>
+
+            <input class="btn login" type="submit" value="Edit">
+          
+        </div>
+      </div>
+    </div>  
+  </div>
+    
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    
+    
+  
+  
+  
+  <div class="modal-backdrop fade in"></div>
+</form>
+</body></html>

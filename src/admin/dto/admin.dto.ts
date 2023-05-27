@@ -7,24 +7,6 @@ import {
 } from 'class-validator';
 import { IntegerDataType } from 'sequelize';
 
-export class AdminDto {
-  @IsString()
-  @IsNotEmpty()
-  name: string;
-
- 
-  isdeleted:boolean
-
-  @IsNotEmpty()
-  id: number;
-
-  @IsNotEmpty()
-  price: number;
-
-  @IsString()
-  @IsNotEmpty()
-  category: string;
-}
 
 export class UserDto {
 

@@ -9,7 +9,7 @@ import {
   Req,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
-import { AdminDto, UserDto, CategoryDto } from './dto';
+import {UserDto, CategoryDto } from './dto';
 
 @Controller('admin')
 export class AdminController {
@@ -28,27 +28,27 @@ export class AdminController {
 
   // }
 
-  @Post('add')
-  addProduct(@Body() dto: AdminDto) {
-    // console.log(data)
-    return this.adminservice.addProduct(dto);
-  }
+  // @Post('add')
+  // addProduct(@Body() dto: AdminDto) {
+  //   // console.log(data)
+  //   return this.adminservice.addProduct(dto);
+  // }
 
-  @Get('read')
-  readProduct() {
-    return this.adminservice.readProduct();
-  }
+  // @Get('read')
+  // readProduct() {
+  //   return this.adminservice.readProduct();
+  // }
 
-  @Put('edit')
-  editProduct(@Body() dto: AdminDto) {
-    // console.log(data)
-    return this.adminservice.editProduct(dto);
-  }
+  // @Put('edit')
+  // editProduct(@Body() dto: AdminDto) {
+  //   // console.log(data)
+  //   return this.adminservice.editProduct(dto);
+  // }
 
-  @Put('delete')
-  deleteProduct(@Body() dto: AdminDto) {
-    return this.adminservice.deleteProduct(dto);
-  }
+  // @Put('delete')
+  // deleteProduct(@Body() dto: AdminDto) {
+  //   return this.adminservice.deleteProduct(dto);
+  // }
 
   @Get('add-user')
   @Render('edit-form')

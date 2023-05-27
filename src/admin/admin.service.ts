@@ -2,78 +2,78 @@ import { Injectable, Redirect } from '@nestjs/common';
 import express, { Request, Response } from "express";
 
 import { PrismaService } from 'prisma/prisma.service';
-import { AdminDto,UserDto,CategoryDto } from './dto';
+import {UserDto,CategoryDto } from './dto';
 import { where } from 'sequelize';
 
 @Injectable({})
 export class AdminService {
   constructor(private prisma: PrismaService) {}
 
-  async addProduct(dto: AdminDto) {
-    // console.log('service', dto.category);
+  // async addProduct(dto: AdminDto) {
+  //   // console.log('service', dto.category);
 
-    try {
-      // console.log("try");
+  //   try {
+  //     // console.log("try");
 
-      const product = await this.prisma.product.create({
-        data: {
-          name: dto.name,
-          price: dto.price,
-          category: dto.category,
-        },
-      });
+  //     const product = await this.prisma.product.create({
+  //       data: {
+  //         name: dto.name,
+  //         price: dto.price,
+  //         category: dto.category,
+  //       },
+  //     });
 
-      return product;
-    } catch (error) {
-      throw error;
-    }
-  }
+  //     return product;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
 
-  async readProduct() {
-    try {
-      const product = await this.prisma.product.findMany();
-      return product;
-    } catch (error) {
-      throw error;
-    }
+  // async readProduct() {
+  //   try {
+  //     const product = await this.prisma.product.findMany();
+  //     return product;
+  //   } catch (error) {
+  //     throw error;
+  //   }
     
-  }
+  // }
 
 
-  async editProduct(dto: AdminDto) {
+  // async editProduct(dto: AdminDto) {
 
-    console.log(dto);
+  //   console.log(dto);
     
-    try {
-      const product = await this.prisma.product.update({
-        data: dto,
-        where:{
-            id: dto.id,
-        }
-      })
-      return product;
-    } catch (error) {
-      throw error;
-    }
+  //   try {
+  //     const product = await this.prisma.product.update({
+  //       data: dto,
+  //       where:{
+  //           id: dto.id,
+  //       }
+  //     })
+  //     return product;
+  //   } catch (error) {
+  //     throw error;
+  //   }
     
-  }
+  // }
 
-  async deleteProduct(dto: AdminDto) {
+  // async deleteProduct(dto: AdminDto) {
 
-    try {
-        const product = await this.prisma.product.update({
-          data: {
-            isdeleted :true,
-          },
-          where:{
-              id: dto.id,
-          }
-        })
-        return product;
-      } catch (error) {
-        throw error;
-      }
-  }
+  //   try {
+  //       const product = await this.prisma.product.update({
+  //         data: {
+  //           isdeleted :true,
+  //         },
+  //         where:{
+  //             id: dto.id,
+  //         }
+  //       })
+  //       return product;
+  //     } catch (error) {
+  //       throw error;
+  //     }
+  // }
 
           //    User    //
 
