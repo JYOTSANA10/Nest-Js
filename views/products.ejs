@@ -664,18 +664,22 @@ h4 {
                         <th scope="col">Name</th>
                         <th scope="col">Price</th>
                         <th scope="col">Image</th>
+                        <th scope="col"> Category</th>
                         <th scope="col">Description</th>
+
                         
                         <th></th>
                       </tr>
                     </thead>
                     <tbody>
                       <% for(var i=0; i<product.length; i++) { %>
-                      <tr>
+                      <tr >
                         
+                      
                         <td><%= product[i].name %></td>
                         <td><%= product[i].price %></td>
-                        <td><%= product[i].image %></td>
+                        <td><img src="<%= product[i].image %>" alt="abc"></td>
+                        <td><%= product[i].category %></td>
                         <td><%= product[i].description %></td>
                         <td class="text-end">
                           <button
@@ -729,12 +733,13 @@ h4 {
 
       function userdelete(id) {
         console.log(id);
-        fetch(`/admin/delete-user?id=${id}`,{
-          method: 'PUT'
+        fetch(`/admin/products/delete-product?id=${id}`,{
+          method: 'POST'
         })
 
       }
 
+      
       function addUser(){
 
         location.assign(`/admin/products/add-product`)
@@ -747,7 +752,7 @@ h4 {
         //   method: 'GET'
         // })
 
-        location.assign(`/admin/edit-user?id=${id}`)
+        location.assign(`/admin/products/edit-product?id=${id}`)
 
       }
 

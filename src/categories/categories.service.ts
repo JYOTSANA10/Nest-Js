@@ -89,7 +89,7 @@ export class CategoriesService {
           id: id,
         },
       });
-      res.redirect('/categories/category');
+      return res.redirect('/categories/category');
 
     } catch (error) {
       throw error;

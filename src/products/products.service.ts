@@ -5,15 +5,51 @@ import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class ProductsService {
-  constructor(private prisma: PrismaService){}
-  create(createProductDto: CreateProductDto,res) {
-    return 'This action adds a new product';
+  constructor(private prisma: PrismaService) {}
+  async create(createProductDto: CreateProductDto, res, filepath) {
+    try {
+      console.log(createProductDto.category);
+
+      await this.prisma.product.create({
+        data: {
+          name: createProductDto.name,
+          price: Number(createProductDto.price),
+          category: createProductDto.category,
+          image: filepath,
+
+          description: createProductDto.description,
+        },
+      });
+
+      res.redirect('/admin/products/product');
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getcategory(res) {
+    const category = await this.prisma.category.findMany({
+      where: {
+        isdeleted: false,
+      },
+    });
+    // console.log(category);
+
+    res.render('add-product', {
+      product: 'undefined',
+      category: category,
+    });
   }
 
   async findAll(req, res) {
     try {
-      console.log('Category');
-      const product = await this.prisma.product.findMany();
+      // console.log('Category');
+      const product = await this.prisma.product.findMany({
+        where: {
+          isdeleted: false,
+        },
+      });
+
       res.render('products', {
         product: product,
       });
@@ -22,15 +58,67 @@ export class ProductsService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} product`;
+  async findOne(id: number, res) {
+    console.log(id);
+    try {
+      const category = await this.prisma.category.findMany({
+        where: {
+          isdeleted: false,
+        },
+      });
+
+      const product = await this.prisma.product.findUnique({
+        where: {
+          id: Number(id),
+        },
+      });
+
+      res.render('add-product', {
+        product: product,
+        category: category,
+      });
+    } catch (error) {
+      throw error;
+    }
+   
   }
 
-  update(id: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${id} product`;
+  async update(updateProductDto: UpdateProductDto, res) {
+    console.log(updateProductDto);
+
+    try {
+      console.log('try');
+      const product = await this.prisma.product.update({
+        data: updateProductDto,
+        where: {
+          id: +updateProductDto.id,
+        },
+      });
+
+      console.log(product);
+
+      // res.redirect('/admin/products/product');
+    } catch (error) {
+      throw error;
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async remove(id: number, res) {
+    console.log(id);
+
+    try {
+      // console.log('try');
+      const product = await this.prisma.product.update({
+        data: {
+          isdeleted: true,
+        },
+        where: {
+          id: id,
+        },
+      });
+      return res.redirect('/admin/products/product');
+    } catch (error) {
+      throw error;
+    }
   }
 }

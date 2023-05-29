@@ -22,6 +22,7 @@ model product {
   name    String  @db.VarChar(255)
   image    String? @db.VarChar(255)
   price    Int      
+  category  String? @db.VarChar(255)
   description  String? @db.VarChar(255)
   isdeleted Boolean        @default(false)
   createdAt DateTime @default(now()) @db.Timestamp(0)

@@ -23,6 +23,7 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { log } from 'console';
 import { async } from 'rxjs';
+import { Path } from '@nestjs/config';
 
 @Controller('admin/products')
 export class ProductsController {
@@ -30,25 +31,24 @@ export class ProductsController {
 
   @Get('add-product')
   @Render('add-product')
-  getAddCategory() {
-    return { product: 'undefined' };
+  getAddCategory(@Res() res) {
+
+    return this.productsService.getcategory(res);
   }
 
   static storage = diskStorage({
     destination: './uploads',
     filename(req, file, callback) {
-      console.log('1');
+      // console.log('1');
 
       let name = file.originalname.split('.')[0];
       name = name.split(' ').join('-');
       const fileExtName = extname(file.originalname);
-      console.log('hello');
+      // console.log('hello');
 
       callback(null, name + Date.now() + fileExtName);
     },
-    // : (req, file, callback) => {
-
-    // },
+    
   });
 
   @Post('add-product')
@@ -62,40 +62,50 @@ export class ProductsController {
   //     }),
   //   }),
   // )
-  @UseInterceptors(
-    FileFieldsInterceptor([{ name: 'image' }], {
-      storage: ProductsController.storage,
-    }),
-  )
+  @UseInterceptors(FileInterceptor('image'))
   create(
     @Body() createProductDto: CreateProductDto,
     @Res() res,
     @UploadedFile()
-    file: { image?: Express.Multer.File },
+    file: Express.Multer.File,
   ) {
-    console.log(file);
 
-    return file;
-    // return this.productsService.create(createProductDto,res);
+    console.log(createProductDto);
+    
+    const filepath = file.filename;
+
+    // return file;
+    return this.productsService.create(createProductDto, res, filepath);
   }
 
   @Get('product')
   findAll(@Req() req, @Res() res) {
+    // console.log(req)
     return this.productsService.findAll(req, res);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
+  @Get('edit-product')
+  @Render('add-product')
+  findOne(@Req() req, @Res() res) {
+    console.log("edit controller",req.query);
+    
+    return this.productsService.findOne(+req.query.id,res);
+
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    return this.productsService.update(+id, updateProductDto);
+  @Post('edit-product')
+  update(
+    @Body() updateProductDto: UpdateProductDto,
+    @Res() res
+  ) {
+      console.log("updateProductDto",updateProductDto);
+      
+    // return this.productsService.update(updateProductDto,res);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productsService.remove(+id);
+  @Post('delete-product')
+  async remove(@Req() req, @Res() res) {
+    console.log(+req.query.id);
+    return await this.productsService.remove(+req.query.id, res);
   }
 }

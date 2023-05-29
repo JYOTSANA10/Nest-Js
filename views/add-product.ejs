@@ -97,9 +97,10 @@
   <body translate="no" class="modal-open">
     <!--Trigger-->
     <%if(product=='undefined'){%>
-    <form name="Login" action="/admin/products/add-product" method="post">
+    <form name="Login" action="/admin/products/add-product" method="post" enctype="multipart/form-data">
     <% }else{ %>
-    <form name="Login" action="/admin/products/edit-product" method="post">
+      
+    <form name="Login" action="/admin/products/edit-product" method="post" enctype="multipart/form-data" >
     <% } %>
   <div id="login" class="modal fade in" role="dialog" style="display: block;">
     <div class="modal-dialog">
@@ -113,14 +114,29 @@
            <input type="text" name="name" class="username form-control" placeholder="Name"  >
            <input type="text" name="price" class="username form-control" placeholder="Price"  >
            <input type="file" name="image" class="username form-control" placeholder="Image" id="image"  >
+           <select name="category" id="category" class="form-control">
+            <%for(var i=0; i<category.length; i++){%>
+            <option value="<%= category[i].name%>"><%= category[i].name%></option>
+          
+            <%}%>
+          </select>
            <input type="text" name="description" class="username form-control" placeholder="Description"  >
             
-         <% }else{ %>
+         <% }else if(product){ %>
             <input type="text" name="id" class="id" placeholder="id" value="<%= product.id%>" hidden>
             <input type="text" name="name" class="username form-control" placeholder="Name" value="<%= product.name%>" >
             <input type="text" name="price" class="username form-control" placeholder="Price" value="<%= product.price%>" >
-           <input type="image" name="image" class="username form-control" placeholder="Image" value="<%= product.image%>" >
-           <input type="text" name="description" class="username form-control" placeholder="Description" value="<%= product.desciption%>" >
+            <input type="file" name="image" class="username form-control" placeholder="Image" id="image" alt="<%= product.price%>" >
+            <select name="category" id="category" class="form-control">
+             <%for(var i=0; i<category.length; i++){%>
+              <% if(product.category== category[i].name){%>
+              <option value="<%= product.category%>" selected><%= product.category%></option>
+              <%}else{%>
+             <option value="<%= category[i].name%>"><%= category[i].name%></option>
+                <%}%>
+             <%}%>
+           </select>
+           <input type="text" name="description" class="username form-control" placeholder="Description" value="<%= product.description%>" >
           <% } %>
 
             <input class="btn login" type="submit" value="Edit">
