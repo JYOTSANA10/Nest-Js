@@ -1,5 +1,5 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
-import express, { Request, Response } from "express";
+import express, { Request, Response } from 'express';
 import { PrismaService } from 'prisma/prisma.service';
 import { AuthDto } from './dto';
 import * as argon from 'argon2';
@@ -10,9 +10,13 @@ import { AuthContoller } from './auth.controller';
 
 @Injectable({})
 export class AuthService {
-  constructor(private prisma: PrismaService, private jwt: JwtService, private config: ConfigService) {}
+  constructor(
+    private prisma: PrismaService,
+    private jwt: JwtService,
+    private config: ConfigService,
+  ) {}
 
-  async register(email: string, pass: string, req: Request, res:Response) {
+  async register(email: string, pass: string, req: Request, res: Response) {
     const hash = await argon.hash(pass);
 
     try {
@@ -39,40 +43,51 @@ export class AuthService {
     }
   }
 
-  async login(dto2: AuthDto) {
-    console.log("dto2",dto2);
+  async login(dto2: AuthDto,res) {
+    console.log('dto2', dto2);
 
     const user = await this.prisma.user.findUnique({
       where: {
-        email: dto2.email
+        email: dto2.email,
       },
     });
     console.log(user);
+
+    if (!user) {
+      throw new ForbiddenException('You are not registered');
+    }
+
+    const PassMatch = await argon.verify(user.pass, dto2.pass);
+
+    if (!PassMatch) {
+      throw new ForbiddenException('Credentials Incorrect');
+    }
+
+    const token= await  this.signToken(user.id, user.email);
+
+    // const token = await this.signToken(
+    //   userId: user.id,
+    //   email: user.email,
+    // );
+    console.log(token);
     
-    if(!user) {
-        throw new ForbiddenException('You are not registered');
-    }
 
-    const PassMatch = await argon.verify(user.pass,dto2.pass);
+    // if (!token) {
+    //   throw new ForbiddenException();
+    // }
+    res.cookie('token', token, {});
+    // res.redirect('/admin');
 
-    if(!PassMatch) {
-        throw new ForbiddenException('Credentials Incorrect');
-    }
-
-    return this.signToken(user.id,user.email);
+    return user;
   }
 
-  signToken(userId:number,email:string){
+  signToken(userId: number, email: string) {
+    const payload = { id:userId, email:email };
+    const secret = this.config.get('SECREAT_KEY');
 
-    const payload = { userId, email };
-    const secret = this.config.get('SECREAT_KEY')
-    
-
-    return this.jwt.signAsync(payload,{
-      expiresIn:'1h',
+    return this.jwt.signAsync(payload, {
+      expiresIn: '1h',
       secret: secret,
-    })
-
+    });
   }
- 
 }

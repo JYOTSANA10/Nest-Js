@@ -664,7 +664,7 @@ h4 {
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
                         <th scope="col">Role</th>
-                        <th scope="col">Permission</th>
+                        <th scope="col">Password</th>
                         
                         <th></th>
                       </tr>
@@ -676,7 +676,7 @@ h4 {
                         <td><%= user[i].name %></td>
                         <td><%= user[i].email %></td>
                         <td><%= user[i].role %></td>
-                        <td><%= user[i].permission %></td>
+                        <td><%= user[i].password %></td>
                         <td class="text-end">
                           <button
                           type="button" id="editbutton" class="login-trigger btn btn-sm btn-neutral" data-target="#login" data-toggle="modal" onclick="return editUser('<%= user[i].id %>')">Edit</button>

@@ -12,7 +12,7 @@ export class UserDto {
 
   isdeleted:boolean
  
-  // @IsNotEmpty()
+  @IsNotEmpty()
   id: number;
 
   @IsString()
@@ -26,9 +26,7 @@ export class UserDto {
   @IsNotEmpty()
   role: string;
   
-  @IsNotEmpty()
-
-  permissions: string;
+ 
 
 
 }

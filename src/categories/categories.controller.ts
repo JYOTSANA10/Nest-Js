@@ -22,7 +22,7 @@ export class CategoriesController {
   @Get('add-category')
   @Render('add-category')
   getAddCategory() {
-    return {category:'undefined'};
+    return { category: 'undefined' };
   }
 
   @Post('add-category')
@@ -33,37 +33,32 @@ export class CategoriesController {
   }
 
   @Get('/category')
-  findAll(@Req() req, @Res() res) {
+  async findAll(@Req() req, @Res() res) {
     // console.log('findAll');
 
-    return this.categoriesService.findAll(req, res);
+    return await this.categoriesService.findAll(req, res);
   }
 
   // @Get('edit-category?id')
   // findOne(@Param('id') id: number) {
   //   console.log("get",id);
-    
+
   //   // return this.categoriesService.findOne(+id);
   // }
 
   @Get('edit-category')
   @Render('add-category')
-  findOne(@Req() req, @Res() res) {
+  async findOne(@Req() req, @Res() res) {
     console.log(req.query);
-    
-    return this.categoriesService.findOne(+req.query.id,res);
 
+    return await this.categoriesService.findOne(+req.query.id, res);
   }
- 
 
   @Post('edit-category')
-  update(
-    @Body() updateCategoryDto: UpdateCategoryDto,
-    @Res() res
-  ) {
-      console.log(updateCategoryDto);
-      
-    return this.categoriesService.update(updateCategoryDto,res);
+  async update(@Body() updateCategoryDto: UpdateCategoryDto, @Res() res) {
+    console.log(updateCategoryDto);
+
+    return await this.categoriesService.update(updateCategoryDto, res);
   }
 
   @Post('delete-category')

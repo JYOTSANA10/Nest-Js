@@ -7,15 +7,25 @@ import {
   Render,
   Res,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import {UserDto, CategoryDto } from './dto';
+import { AuthGuard } from '@nestjs/passport';
+import { AdminRoleGuard } from 'src/auth/admin-role.guard';
+import { UseRoles } from 'nest-access-control';
 
 @Controller('admin')
 export class AdminController {
   constructor(private adminservice: AdminService) {}
 
   @Get('/')
+
+  @UseRoles({
+    possession:"any",
+    action:'create',
+    resource:'product'
+  })
   @Render('admindashboard.ejs')
   Admin() {
     console.log('admin');
@@ -53,7 +63,7 @@ export class AdminController {
   @Get('add-user')
   @Render('edit-form')
   getaddUser() {
-    console.log('admin');
+    return {user:"undefined"}
   }
 
 
@@ -74,17 +84,24 @@ export class AdminController {
   @Get('edit-user')
   @Render('edit-form')
   getEditUser( @Req() req, @Res() res) {
-    console.log("getedituser", req.query.id);
+    console.log("getedituser", +req.query.id);
     
-    // return this.adminservice.getEditUser(req.query.id,res);
+    return this.adminservice.getEditUser(+req.query.id,res);
 
   }
 
-  @Put('edit-user')
-  editUser(@Res() res) {
-    console.log(res)
-    // return this.adminservice.editUser(dto);
+  @Post('edit-user')
+  editUser(@Body() userDto:UserDto,@Res() res) {
+    console.log(userDto)
+    return this.adminservice.editUser(userDto,res);
   }
+
+  // @Post('edit-category')
+  // async update(@Body() updateCategoryDto: UpdateCategoryDto, @Res() res) {
+  //   console.log(updateCategoryDto);
+
+  //   return await this.categoriesService.update(updateCategoryDto, res);
+  // }
 
   @Put('delete-user')
   deleteUser(id: number, @Req() req, @Res() res) {
@@ -93,25 +110,25 @@ export class AdminController {
     return this.adminservice.deleteUser(req.query.id, res);
   }
 
-  @Post('add-category')
-  addCategory(@Body() dto: CategoryDto) {
-    console.log('user', dto);
-    return this.adminservice.addCategory(dto);
-  }
+  // @Post('add-category')
+  // addCategory(@Body() dto: CategoryDto) {
+  //   console.log('user', dto);
+  //   return this.adminservice.addCategory(dto);
+  // }
 
   //   @Get('read-category')
   //   readCategory() {
   //     return this.adminservice.readCategory();
   //   }
 
-  @Put('edit-category')
-  editCategory(@Body() dto: CategoryDto) {
-    // console.log(data)
-    return this.adminservice.editCategory(dto);
-  }
+  // @Put('edit-category')
+  // editCategory(@Body() dto: CategoryDto) {
+  //   // console.log(data)
+  //   return this.adminservice.editCategory(dto);
+  // }
 
-  @Put('delete-category')
-  deleteCategory(@Body() dto: CategoryDto) {
-    return this.adminservice.deleteCategory(dto);
-  }
+  // @Put('delete-category')
+  // deleteCategory(@Body() dto: CategoryDto) {
+  //   return this.adminservice.deleteCategory(dto);
+  // }
 }

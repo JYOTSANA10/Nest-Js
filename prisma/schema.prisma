@@ -32,8 +32,8 @@ model admin_user{
   id      Int      @id @default(autoincrement())@unique
   name    String  @db.VarChar(255)
   email      String    @db.VarChar(45) @unique
-  role    String?    @db.VarChar(45)
-  permission    String?  @db.VarChar(255)
+  roles    String?    @db.VarChar(45)
+  password    String?  @db.VarChar(255)
   isdeleted Boolean        @default(false)
    createdAt DateTime @default(now()) @db.Timestamp(0)
 }

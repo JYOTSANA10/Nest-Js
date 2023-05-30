@@ -96,23 +96,40 @@
   
   <body translate="no" class="modal-open">
     <!--Trigger-->
-    <form name="Login" action="/admin/add-user" method="post">
-  
+      <%if(user=="undefined"){%>
+        <form name="Login" action="/admin/add-user" method="post">
+
+        <% }else{ %>
+          
+          <form name="Login" action="/admin/edit-user" method="post">
+
+        <% } %>
   <div id="login" class="modal fade in" role="dialog" style="display: block;">
     <div class="modal-dialog">
       
       <div class="modal-content">
         <div class="modal-body">
           <button data-dismiss="modal" class="close">×</button>
-          <h4>Edit Form</h4>
-          
+          <h4>User</h4>
+          <%if(user=='undefined'){%>
             <input type="text" name="name" class="username form-control" placeholder="Name" >
             <input type="email" name="email" class="password form-control" placeholder="Email" >
             <input type="text" name="role" class="username form-control" placeholder="Role" >
-            <input type="text" name="permission" class="username form-control" placeholder="Permission" >
+            <input type="password" name="password" class="username form-control" placeholder="Password" >
+       
+         <% }else{ %>
+          <input type="text" name="id" class="id" placeholder="id" value="<%= user.id%>" hidden >
 
+          <input type="text" name="name" class="username form-control" placeholder="Name" value="<%= user.name%>">
+          <input type="email" name="email" class="password form-control" placeholder="Email" value="<%= user.email%>">
+          <input type="text" name="role" class="username form-control" placeholder="Role" value="<%= user.role%>" >
+          <input type="password" name="password" class="username form-control" placeholder="Password" value="<%= user.password%>" >
 
-            <input class="btn login" type="submit" value="Edit">
+          <% } %>
+          
+            
+
+            <input class="btn login" type="submit" value="Submit">
           
         </div>
       </div>

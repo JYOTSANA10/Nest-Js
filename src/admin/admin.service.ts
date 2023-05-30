@@ -84,12 +84,14 @@ export class AdminService {
     try {
       console.log("try");
 
-      const user=await this.prisma.admin_user.create({
+      
+      await this.prisma.admin_user.create({
         data:{
             name: req.name,
             email: req.email,
             role: req.role,
-            permission: req.permission
+            password: req.password,
+            
         }
       })
 
@@ -106,6 +108,7 @@ export class AdminService {
 
     try {
      
+      
      const user=await this.prisma.admin_user.findMany({
       where:{
         isdeleted :false,
@@ -133,7 +136,7 @@ export class AdminService {
      
      const user=await this.prisma.admin_user.findUnique({
       where:{
-        id :id,
+        id :+id,
       }
      })
      
@@ -147,7 +150,7 @@ export class AdminService {
   }
 
 
-  async editUser(dto: UserDto) {
+  async editUser(dto: UserDto,res) {
     // console.log('service', dto.category);
 
     try {
@@ -156,12 +159,13 @@ export class AdminService {
         data:{
             name: dto.name,
             email: dto.email,
+            role: dto.role
         },
         where:{
-            id: dto.id,
+            id: +dto.id,
         }
       })
-     return user;
+      res.redirect('/admin/user');
       
     } catch (error) {
       throw error;

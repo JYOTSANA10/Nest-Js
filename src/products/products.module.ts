@@ -6,7 +6,7 @@ import { PrismaModule } from 'prisma/prisma.module';
 
 @Module({
   imports: [PrismaModule,MulterModule.register({
-    dest: 'uploads',
+    dest: './public/uploads',
     })],
   controllers: [ProductsController],
   providers: [ProductsService],

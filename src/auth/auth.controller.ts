@@ -32,9 +32,9 @@ export class AuthContoller {
   }
 
   @Post('login')
-  login(@Body() dto2: AuthDto) {
+  login(@Body() dto2: AuthDto,@Res() res) {
     // console.log(dto2);
 
-    return this.authservice.login(dto2);
+    return this.authservice.login(dto2,res);
   }
 }

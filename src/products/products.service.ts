@@ -27,7 +27,8 @@ export class ProductsService {
     }
   }
 
-  async getcategory(res) {
+  async getproduct(res) {
+    const product = "undefined";
     const category = await this.prisma.category.findMany({
       where: {
         isdeleted: false,
@@ -36,7 +37,7 @@ export class ProductsService {
     // console.log(category);
 
     res.render('add-product', {
-      product: 'undefined',
+      product,
       category: category,
     });
   }
@@ -80,24 +81,28 @@ export class ProductsService {
     } catch (error) {
       throw error;
     }
-   
   }
 
   async update(updateProductDto: UpdateProductDto, res) {
-    console.log(updateProductDto);
+    console.log('update data in product=', updateProductDto);
 
     try {
       console.log('try');
       const product = await this.prisma.product.update({
-        data: updateProductDto,
+        data: {
+          name: updateProductDto.name,
+          category: updateProductDto.category,
+          price: Number(updateProductDto.price),
+          description: updateProductDto.description,
+        },
         where: {
-          id: +updateProductDto.id,
+          id: Number(updateProductDto.id),
         },
       });
 
-      console.log(product);
+      console.log('update product', product);
 
-      // res.redirect('/admin/products/product');
+      res.redirect('/admin/products/product');
     } catch (error) {
       throw error;
     }

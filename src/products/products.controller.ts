@@ -31,13 +31,12 @@ export class ProductsController {
 
   @Get('add-product')
   @Render('add-product')
-  getAddCategory(@Res() res) {
-
-    return this.productsService.getcategory(res);
+  async getAddCategory(@Res() res) {
+    return await this.productsService.getproduct(res);
   }
 
   static storage = diskStorage({
-    destination: './uploads',
+    destination: './public/uploads',
     filename(req, file, callback) {
       // console.log('1');
 
@@ -48,59 +47,45 @@ export class ProductsController {
 
       callback(null, name + Date.now() + fileExtName);
     },
-    
   });
 
-  @Post('add-product')
-  // @UseInterceptors(
-  //   FileInterceptor('file', {
-  //     storage: diskStorage({
-  //       destination: './uploads',
-  //       filename: (req, file, cb) => {
-  //         cb(null, `${file.originalname}`);
-  //       },
-  //     }),
-  //   }),
-  // )
+ @Post('add-product')
   @UseInterceptors(FileInterceptor('image'))
-  create(
+ async create(
     @Body() createProductDto: CreateProductDto,
     @Res() res,
     @UploadedFile()
     file: Express.Multer.File,
   ) {
+    console.log("createProductDto",createProductDto);
 
-    console.log(createProductDto);
-    
     const filepath = file.filename;
 
-    // return file;
-    return this.productsService.create(createProductDto, res, filepath);
+    console.log(file);
+    
+
+    return await this.productsService.create(createProductDto, res, filepath);
   }
 
   @Get('product')
-  findAll(@Req() req, @Res() res) {
+ async findAll(@Req() req, @Res() res) {
     // console.log(req)
-    return this.productsService.findAll(req, res);
+    return await this.productsService.findAll(req, res);
   }
 
   @Get('edit-product')
-  @Render('add-product')
-  findOne(@Req() req, @Res() res) {
-    console.log("edit controller",req.query);
-    
-    return this.productsService.findOne(+req.query.id,res);
+  // @Render('add-product')
+  async findOne(@Req() req, @Res() res) {
+    console.log('edit controller', req.query);
 
+    return await this.productsService.findOne(+req.query.id, res);
   }
 
   @Post('edit-product')
-  update(
-    @Body() updateProductDto: UpdateProductDto,
-    @Res() res
-  ) {
-      console.log("updateProductDto",updateProductDto);
-      
-    // return this.productsService.update(updateProductDto,res);
+  async update(@Body() updateProductDto: UpdateProductDto, @Res() res) {
+    console.log('updateProductDto', updateProductDto);
+
+    return await this.productsService.update(updateProductDto, res);
   }
 
   @Post('delete-product')

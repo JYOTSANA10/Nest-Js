@@ -96,7 +96,7 @@
   
   <body translate="no" class="modal-open">
     <!--Trigger-->
-    <%if(product=='undefined'){%>
+    <%if(product=="undefined"){%>
     <form name="Login" action="/admin/products/add-product" method="post" enctype="multipart/form-data">
     <% }else{ %>
       
@@ -109,7 +109,7 @@
         <div class="modal-body">
           <button data-dismiss="modal" class="close">×</button>
           <h4>Product Details</h4>
-          <%if(product=='undefined'){%>
+          <%if(product=="undefined"){%>
             <input type="text" name="id" class="id" placeholder="id" hidden>
            <input type="text" name="name" class="username form-control" placeholder="Name"  >
            <input type="text" name="price" class="username form-control" placeholder="Price"  >
@@ -122,8 +122,8 @@
           </select>
            <input type="text" name="description" class="username form-control" placeholder="Description"  >
             
-         <% }else if(product){ %>
-            <input type="text" name="id" class="id" placeholder="id" value="<%= product.id%>" hidden>
+         <% }else{ %>
+            <input type="text" name="id" class="id" placeholder="id" value="<%= product.id%>" hidden >
             <input type="text" name="name" class="username form-control" placeholder="Name" value="<%= product.name%>" >
             <input type="text" name="price" class="username form-control" placeholder="Price" value="<%= product.price%>" >
             <input type="file" name="image" class="username form-control" placeholder="Image" id="image" alt="<%= product.price%>" >
@@ -139,7 +139,7 @@
            <input type="text" name="description" class="username form-control" placeholder="Description" value="<%= product.description%>" >
           <% } %>
 
-            <input class="btn login" type="submit" value="Edit">
+            <input class="btn login" type="submit" value="Submit">
           
         </div>
       </div>
