@@ -470,6 +470,9 @@
 
 <body>
     
+    <div class="cart_button">
+        <a href="/carts/user-cart?user_id=<%=user_id%>">Show Cart</a>
+    </div>
     <div class="product__box__col">
         <div class="product_listing_box">
             <div class="categories_box-title">
@@ -482,8 +485,8 @@
                         <div class="product_listing_img">                    
                             <a href="">
                                 
-                                <input type="image" src="/uploads/<%=product[i].image%>" alt=""> </a>
-                            <!-- /<%= product[i].image%> -->
+                                <img src="/uploads/<%=product[i].image%>" alt=""> </a>
+                           
                         </div>
                         <div class="product_listing_content">
                             <h3><a href="">

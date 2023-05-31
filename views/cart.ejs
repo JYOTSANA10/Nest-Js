@@ -176,36 +176,62 @@
             min-width: 230px;
             padding-left: 20px;
             padding-right: 20px;
+            height: 42px;
         }
-
+        .qty-box{display:flex;flex-direction:row;align-items:center;}
+        .qty-box .qty-label{font-size:20px;line-height:28px;font-weight:700;letter-spacing:0.25px;color:#333333;margin-right:10px;}
+        .detail-qty{display:flex;align-items:center;}
+        .detail-qty a{width:23px;height:19px;color:#ffffff;background-color:#333333;border-radius:15px;line-height:23px;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;font-size:34px;font-family:cursive;padding-bottom:5px;}
+        .detail-qty .qty-val{width:50px;height:30px;text-align:center;border:1px solid #333333;border-radius:0;margin:0 8px;}
 </style>
 </head>
 <body>
     <div id="your_shopping_bag" class="your_shopping_bag-box">
         <h3>Your shopping bag</h3>
         <ul class="shopping_detail">
-
+            <%for(var i=0; i<show_cart.length; i++) { var total=0 %>
             <li class="shopping_detail_iteam">
                 <div class="shopping_detail_iteam--img">
-                    <img src="images/product_list_1.png" alt="">
+                    <img src="/uploads/<%=show_cart[i].product.image%>" >
                 </div>
                 <div class="shopping_detail_iteam--col">
                     <div class="shopping_detail_title">
-                        <h4><%=cart.name%></h4>
+                        <h4><%=show_cart[i].product.name%></h4>
                     </div>
                     <div class="shopping_detail_value_price">
                         <div class="shopping_detail_value">
-                            <span>1</span>
+                           
+                            <div class="qty-box">
+                               
+                                <div class="detail-qty info-qty">
+                                  <a href="/carts/minus-item?id=<%=show_cart[i].id %>" class="qty-down">&#8722;</a>
+                                  <input
+                                    type="text"
+                                    data-step="1"
+                                    data-min="1"
+                                    data-max="10"
+                                    name="quantity"
+                                    value="<%=show_cart[i].number_of_items%>"
+                                    title="Qty"
+                                    class="qty-val"
+                                    size="4"
+                                  >
+                                  <a href="/carts/plus-item?id=<%=show_cart[i].id %>" class="qty-up">&#43;</a>
+                                </div>
+                              </div>
                         </div>
                         <div class="shopping_detail_price">
-                            <span><%=cart.price%></span>
+                            <span><%=show_cart[i].product.price%></span>
                         </div>
                     </div>
                     <div class="close_iteam">
-                        <a href="#">&#215;</a>
+                        <a href="/carts/delete-item?id=<%=show_cart[i].id %>">&#215;</a>
                     </div>
                 </div>
             </li>
+            
+            <% total+=show_cart[i].product.price }  console.log(total) %>
+
 
            
             <li class="shopping_detail_total">
@@ -213,14 +239,13 @@
                     TOTAL
                 </div>
                 <div class="shopping_detail_total--price">
-                    18.00
+                    <%= total %>
                 </div>
             </li>
 
         </ul>
         <div class="shopping_detail-btns">
-            <button type="submit" name="add-to-cart" value="1122" class="ui-btn">VIEW SHOPPING BAG</button>
-            <button type="submit" name="add-to-cart" value="1122" class="ui-btn liner-ui-btn">SAVE FOR LATER</button>
+            <button type="submit" name="add-to-cart" value="1122" class="ui-btn">Buy Now</button>
         </div>
     </div>
 </body>

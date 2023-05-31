@@ -54,7 +54,9 @@ model cart{
   user   user    @relation(fields: [user_id], references: [id])
   product_id Int
   product   product    @relation(fields: [product_id], references: [id])
+  number_of_items Int  @default(1)
   createdAt DateTime @default(now()) @db.Timestamp(0)
+  isdeleted Boolean        @default(false)
 }
 
 
@@ -63,4 +65,5 @@ model role{
    name        String     @db.VarChar(45) @unique
    permission  String?    @db.VarChar(45) @unique
    user        user[]
+   createdAt DateTime @default(now()) @db.Timestamp(0)
 }

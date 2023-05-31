@@ -448,6 +448,9 @@
           grid-template-columns: repeat(2, 1fr);
         }
       }
+      td img{
+        max-width: 40px;
+      }
 
       @media (max-width: 768px) {
         .details {
@@ -678,7 +681,7 @@ h4 {
                       
                         <td><%= product[i].name %></td>
                         <td><%= product[i].price %></td>
-                        <td><img src="<%= product[i].image %>" alt="abc"></td>
+                        <td><img src="/uploads/<%=product[i].image %>"></td>
                         <td><%= product[i].category %></td>
                         <td><%= product[i].description %></td>
                         <td class="text-end">

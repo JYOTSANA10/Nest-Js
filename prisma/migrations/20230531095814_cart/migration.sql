@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE `cart` ADD COLUMN `number_of_items` INTEGER NOT NULL DEFAULT 1;
+
+-- AlterTable
+ALTER TABLE `role` ADD COLUMN `createdAt` TIMESTAMP(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0);
