@@ -89,7 +89,7 @@ export class AdminService {
         data:{
             name: req.name,
             email: req.email,
-            role: req.role,
+            roles: req.roles,
             password: req.password,
             
         }
@@ -159,7 +159,7 @@ export class AdminService {
         data:{
             name: dto.name,
             email: dto.email,
-            role: dto.role
+            roles: dto.roles
         },
         where:{
             id: +dto.id,

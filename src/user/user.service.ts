@@ -8,6 +8,7 @@ export class UserService {
   async getallProduct(res) {
     try {
         const cart="undefined";
+        const user_id=2
       // console.log('Category');
       const product = await this.prisma.product.findMany({
         where: {
@@ -20,7 +21,9 @@ export class UserService {
 
       res.render('user-product', {
         product: product,
-        cart
+        cart,
+        user_id
+        
       });
     } catch (error) {
       throw error;

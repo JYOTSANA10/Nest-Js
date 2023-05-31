@@ -7,13 +7,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
  model user {
-  id         Int       @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())@unique
   email      String    @db.VarChar(45) @unique
   pass       String    @db.VarChar(120)
   name       String?   @db.VarChar(45)
   google_id  String?   @db.VarChar(45)
   createdAt DateTime? @default(now()) @db.Timestamp(0)
-  role      String?    @db.VarChar(45)
+  cart  cart[]
+  role_id Int         
+  role    role  @relation(fields: [role_id], references: [id])
 }
 
 
@@ -26,6 +28,7 @@ model product {
   description  String? @db.VarChar(255)
   isdeleted Boolean        @default(false)
   createdAt DateTime @default(now()) @db.Timestamp(0)
+  cart  cart[]
 }
 
 model admin_user{
@@ -43,4 +46,21 @@ model category{
   name    String  @db.VarChar(255)
   isdeleted Boolean        @default(false)
   createdAt DateTime @default(now()) @db.Timestamp(0)
+}
+
+model cart{
+  id      Int      @id @default(autoincrement())@unique
+  user_id Int
+  user   user    @relation(fields: [user_id], references: [id])
+  product_id Int
+  product   product    @relation(fields: [product_id], references: [id])
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+}
+
+
+model role{
+   id         Int      @id @default(autoincrement())@unique
+   name        String     @db.VarChar(45) @unique
+   permission  String?    @db.VarChar(45) @unique
+   user        user[]
 }

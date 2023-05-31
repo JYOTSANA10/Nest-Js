@@ -9,10 +9,11 @@ import { ProductsModule } from './products/products.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { AccessControlModule } from 'nest-access-control';
 import { roles } from './auth/guard/user-roles';
+import { CartsModule } from './carts/carts.module';
 
 
 @Module({
-  imports: [ConfigModule,AuthModule, UserModule,PrismaModule,AdminModule, CategoriesModule, ProductsModule,AccessControlModule.forRoles(roles)],
+  imports: [ConfigModule,AuthModule, UserModule,PrismaModule,AdminModule, CategoriesModule, ProductsModule,AccessControlModule.forRoles(roles), CartsModule],
  
 })
 export class AppModule {}

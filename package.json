@@ -9,6 +9,8 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "scripts": {
+    "seed": "node dist/seeder",
+    "seed:refresh": "node dist/seeder --refresh",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<head>
+<style>
+    .your_shopping_bag-box {
+            background: #FFFFFF;
+            box-shadow: 5px 5px 10px #00000029;
+            border: 1px solid #DDDDDD;
+            padding: 20px 25px;
+            position: relative;
+            ;
+            right: -150px;
+            top: 100%;
+            margin-top: 25px;
+            width: 100%;
+            max-width: 380px;
+        }
+
+        .your_shopping_bag-box h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #180c34;
+            line-height: inherit;
+            text-align: center;
+            margin-bottom: 22px;
+            margin-top: 10px;
+        }
+
+        .your_shopping_bag-box ul.shopping_detail {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .your_shopping_bag-box ul.shopping_detail li.shopping_detail_iteam {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #EEEEEE;
+        }
+
+        .your_shopping_bag-box ul.shopping_detail li.shopping_detail_iteam:first-child {
+            border-top: 1px solid #EEEEEE;
+        }
+
+        .your_shopping_bag-box ul.shopping_detail li.shopping_detail_iteam .shopping_detail_iteam--img {
+            display: block;
+            position: relative;
+            max-width: 100px;
+            width: 100%;
+            height: 100px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+            border-radius: 5px;
+            border: 1px solid #4f2982;
+        }
+
+        .your_shopping_bag-box ul.shopping_detail li.shopping_detail_iteam .shopping_detail_iteam--img img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+
+        .your_shopping_bag-box ul.shopping_detail li.shopping_detail_iteam .shopping_detail_iteam--col {
+            margin-left: -100px;
+            width: 100%;
+            padding-left: 115px;
+            position: relative;
+        }
+
+        .your_shopping_bag-box ul.shopping_detail li.shopping_detail_iteam .close_iteam {
+            position: absolute;
+            right: 10px;
+            top: 5px;
+        }
+
+        .your_shopping_bag-box ul.shopping_detail li.shopping_detail_iteam .close_iteam a {
+            color: #180c34;
+            text-decoration: none;
+            display: flex;
+            transition: all 0.4s ease-in-out;
+            line-height: 10px;
+            font-size: 20px;
+        }
+
+        .your_shopping_bag-box ul.shopping_detail li.shopping_detail_iteam .close_iteam a:hover {
+            color: #e56db1;
+        }
+
+        .your_shopping_bag-box ul.shopping_detail li.shopping_detail_iteam h4 {
+            font-size: 14px;
+            font-weight: 900;
+            color: #180c34;
+            line-height: inherit;
+            margin-bottom: 8px;
+            padding-right: 30px;
+        }
+
+        .your_shopping_bag-box ul.shopping_detail li.shopping_detail_iteam .shopping_detail_value_price {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .your_shopping_bag-box ul.shopping_detail li.shopping_detail_iteam .shopping_detail_value {
+            display: flex;
+            padding-right: 30px;
+            position: relative;
+        }
+
+        .your_shopping_bag-box ul.shopping_detail li.shopping_detail_iteam .shopping_detail_value:before {
+            content: "";
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            width: 4px;
+            height: 4px;
+            border-radius: 2px;
+            margin-top: -2px;
+            background-color: #B1B1B1;
+        }
+
+        .your_shopping_bag-box ul.shopping_detail li.shopping_detail_iteam .shopping_detail_value span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            border: 1px solid #DDDDDD;
+            font-size: 12px;
+            color: #B1B1B1;
+        }
+
+        .your_shopping_bag-box ul.shopping_detail li.shopping_detail_iteam .shopping_detail_price span {
+            display: flex;
+            font-size: 14px;
+            font-weight: 700;
+            color: #180c34;
+        }
+
+        .your_shopping_bag-box ul.shopping_detail li.shopping_detail_total {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 25px;
+            border-bottom: 1px solid #EEEEEE;
+        }
+
+        .your_shopping_bag-box ul.shopping_detail li.shopping_detail_total .shopping_detail_total--title,
+        .your_shopping_bag-box ul.shopping_detail li.shopping_detail_total .shopping_detail_total--price {
+            display: flex;
+            font-size: 14px;
+            font-weight: 900;
+            color: #180c34;
+        }
+
+        .your_shopping_bag-box ul.shopping_detail li.shopping_detail_total .shopping_detail_total--price {
+            font-weight: 700;
+        }
+
+        .your_shopping_bag-box .shopping_detail-btns {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .your_shopping_bag-box .shopping_detail-btns .ui-btn {
+            margin-bottom: 15px;
+            min-width: 230px;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+</style>
+</head>
+<body>
+    <div id="your_shopping_bag" class="your_shopping_bag-box">
+        <h3>Your shopping bag</h3>
+        <ul class="shopping_detail">
+
+            <li class="shopping_detail_iteam">
+                <div class="shopping_detail_iteam--img">
+                    <img src="images/product_list_1.png" alt="">
+                </div>
+                <div class="shopping_detail_iteam--col">
+                    <div class="shopping_detail_title">
+                        <h4><%=cart.name%></h4>
+                    </div>
+                    <div class="shopping_detail_value_price">
+                        <div class="shopping_detail_value">
+                            <span>1</span>
+                        </div>
+                        <div class="shopping_detail_price">
+                            <span><%=cart.price%></span>
+                        </div>
+                    </div>
+                    <div class="close_iteam">
+                        <a href="#">&#215;</a>
+                    </div>
+                </div>
+            </li>
+
+           
+            <li class="shopping_detail_total">
+                <div class="shopping_detail_total--title">
+                    TOTAL
+                </div>
+                <div class="shopping_detail_total--price">
+                    18.00
+                </div>
+            </li>
+
+        </ul>
+        <div class="shopping_detail-btns">
+            <button type="submit" name="add-to-cart" value="1122" class="ui-btn">VIEW SHOPPING BAG</button>
+            <button type="submit" name="add-to-cart" value="1122" class="ui-btn liner-ui-btn">SAVE FOR LATER</button>
+        </div>
+    </div>
+</body>
+</html>

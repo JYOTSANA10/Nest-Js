@@ -469,52 +469,7 @@
 </head>
 
 <body>
-    <% if(cart!=="undefined"){ console.log("undefined",cart) %>
-    <div id="your_shopping_bag" class="your_shopping_bag-box" style="display: none;">
-        <h3>Your shopping bag</h3>
-        <ul class="shopping_detail">
-
-            <li class="shopping_detail_iteam">
-                <div class="shopping_detail_iteam--img">
-                    <img src="images/product_list_1.png" alt="">
-                </div>
-                <div class="shopping_detail_iteam--col">
-                    <div class="shopping_detail_title">
-                        <h4><%=cart.name%></h4>
-                    </div>
-                    <div class="shopping_detail_value_price">
-                        <div class="shopping_detail_value">
-                            <span>1</span>
-                        </div>
-                        <div class="shopping_detail_price">
-                            <span><%=cart.price%></span>
-                        </div>
-                    </div>
-                    <div class="close_iteam">
-                        <a href="#">&#215;</a>
-                    </div>
-                </div>
-            </li>
-
-           
-            <li class="shopping_detail_total">
-                <div class="shopping_detail_total--title">
-                    TOTAL
-                </div>
-                <div class="shopping_detail_total--price">
-                    18.00
-                </div>
-            </li>
-
-        </ul>
-        <div class="shopping_detail-btns">
-            <button type="submit" name="add-to-cart" value="1122" class="ui-btn">VIEW SHOPPING BAG</button>
-            <button type="submit" name="add-to-cart" value="1122" class="ui-btn liner-ui-btn">SAVE FOR LATER</button>
-        </div>
-    </div>
-    <%}else{ console.log("elseif")%>
-    <div id="your_shopping_bag" class="your_shopping_bag-box" style="display: none;"></div>
-    <%}%>
+    
     <div class="product__box__col">
         <div class="product_listing_box">
             <div class="categories_box-title">
@@ -544,7 +499,7 @@
                             </div>
                         </div>
                         <input type="hidden" name="id" value="<%=product[i].id%>" hidden>
-                        <div class="product_listing_btn" onclick="addToCart('<%=product[i].id%>')">
+                        <div class="product_listing_btn" onclick="addToCart('<%=product[i].id%>','<%=user_id%>')">
                             ADD TO CART
                         </div>
                     </div>
@@ -556,11 +511,11 @@
     </div>
     <script>
 
-        async function addToCart(id){
+        async function addToCart(id,user_id){
             // alert("cart");
             
-            await fetch(`/user-dashboard/cart?id=${id}`)
-            const bag=document.getElementById('your_shopping_bag').style.display="block"
+            await fetch(`/carts/cart?id=${id}&user_id=${user_id}`)
+            // const bag=document.getElementById('your_shopping_bag').style.display="block"
             console.log(id);
 
             
