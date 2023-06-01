@@ -177,7 +177,15 @@
             padding-left: 20px;
             padding-right: 20px;
             height: 42px;
+            text-decoration: none;
+            color: black;
         }
+        /* .shopping_detail_total--title{} */
+        /* a{
+            text-decoration: none;
+            color: black;
+            
+        } */
         .qty-box{display:flex;flex-direction:row;align-items:center;}
         .qty-box .qty-label{font-size:20px;line-height:28px;font-weight:700;letter-spacing:0.25px;color:#333333;margin-right:10px;}
         .detail-qty{display:flex;align-items:center;}
@@ -204,19 +212,19 @@
                             <div class="qty-box">
                                
                                 <div class="detail-qty info-qty">
-                                  <a href="/carts/minus-item?id=<%=show_cart[i].id %>" class="qty-down">&#8722;</a>
+                                  <span class="qty-down" onclick="minus('<%=show_cart[i].id%>')">&#8722;</span>
                                   <input
                                     type="text"
                                     data-step="1"
-                                    data-min="1"
-                                    data-max="10"
+                                    min="1"
+                                    max="10"
                                     name="quantity"
                                     value="<%=show_cart[i].number_of_items%>"
                                     title="Qty"
                                     class="qty-val"
                                     size="4"
                                   >
-                                  <a href="/carts/plus-item?id=<%=show_cart[i].id %>" class="qty-up">&#43;</a>
+                                  <span class="qty-up" onclick="plus('<%=show_cart[i].id %>')">&#43;</span>
                                 </div>
                               </div>
                         </div>
@@ -245,8 +253,40 @@
 
         </ul>
         <div class="shopping_detail-btns">
-            <button type="submit" name="add-to-cart" value="1122" class="ui-btn">Buy Now</button>
+            <button class="ui-btn"><a href="/user-dashboard/product" class="ui-btn">Go to Product-Page </a></button>
+            <button class="ui-btn"><a href="/user-dashboard/confirm" class="ui-btn" name="add-to-cart" >Buy Now</a></button>
         </div>
     </div>
+    <script>
+
+        // function back(){
+        //     fetch(`/user-dashboard/product`,{
+        //         method:'GET'
+        //     })
+        // }
+
+        function minus(id){
+            console.log(id);
+            fetch(`/carts/minus-item?id=${id}`,{
+                
+            })
+        }
+
+        function plus(id){
+            console.log(id);
+
+
+            fetch(`/carts/plus-item?id=${id}`,{
+                method:'PUT',
+                headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                }
+            }).then((res) => {
+                console.log(res);
+                window.location.reload();
+            })
+        }
+    </script>
 </body>
 </html>

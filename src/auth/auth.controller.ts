@@ -1,7 +1,11 @@
-import { Body, Controller, Get, Post, Redirect, Render,Req,Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Redirect, Render,Req,Res ,UseGuards} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Request } from 'express';
 import { AuthDto } from './dto';
+import { AuthGuard } from '@nestjs/passport';
+// import { AdminRoleGuard } from 'src/auth/admin-role.guard';
+
+
 
 @Controller('auth')
 export class AuthContoller {
@@ -31,6 +35,7 @@ export class AuthContoller {
     
   }
 
+  // @UseGuards(AdminRoleGuard)
   @Post('login')
   login(@Body() dto2: AuthDto,@Res() res) {
     // console.log(dto2);

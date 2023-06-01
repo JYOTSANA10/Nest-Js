@@ -471,7 +471,7 @@
 <body>
     
     <div class="cart_button">
-        <a href="/carts/user-cart?user_id=<%=user_id%>">Show Cart</a>
+        <a href="/carts/user-cart">Show Cart</a>
     </div>
     <div class="product__box__col">
         <div class="product_listing_box">
@@ -502,7 +502,7 @@
                             </div>
                         </div>
                         <input type="hidden" name="id" value="<%=product[i].id%>" hidden>
-                        <div class="product_listing_btn" onclick="addToCart('<%=product[i].id%>','<%=user_id%>')">
+                        <div class="product_listing_btn" onclick="addToCart('<%=product[i].id%>')">
                             ADD TO CART
                         </div>
                     </div>
@@ -514,10 +514,12 @@
     </div>
     <script>
 
-        async function addToCart(id,user_id){
+        async function addToCart(id){
             // alert("cart");
             
-            await fetch(`/carts/cart?id=${id}&user_id=${user_id}`)
+            await fetch(`/carts/cart?id=${id}`,{
+                method:'POST'
+            })
             // const bag=document.getElementById('your_shopping_bag').style.display="block"
             console.log(id);
 

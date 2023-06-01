@@ -2,19 +2,22 @@ import { Injectable } from '@nestjs/common';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { PrismaService } from 'prisma/prisma.service';
+import { userInfo } from 'os';
 
 @Injectable()
 export class CartsService {
   constructor(private prisma: PrismaService) {}
 
-  async cart(id, res) {
+  async cart(id,user_id, res) {
     try {
       const find = await this.prisma.cart.findMany({
         where: {
           product_id: +id.id,
+          user_id:+user_id,
+          isdeleted:false
         },
       });
-      // console.log(find[0].id);
+      console.log(find.length);
       if (find.length) {
         console.log('if');
         // const items=find[0].number_of_items+1;
@@ -32,7 +35,7 @@ export class CartsService {
         const cart = await this.prisma.cart.create({
           data: {
             product: { connect: { id: +id.id } },
-            user: { connect: { id: +id.user_id } },
+            user: { connect: { id: +user_id } },
           },
         });
       }
@@ -48,19 +51,18 @@ export class CartsService {
     const show_cart = await this.prisma.cart.findMany({
       where: {
         user_id: +user_id,
-        isdeleted:false,
+        isdeleted: false,
+        number_of_items: { gt:0 }
       },
       include: { product: true },
     });
     console.log(show_cart);
-    for(let i = 0; i < show_cart.length; i++) {
-      
-     
-       var total = total+show_cart[i].product.price;
+    for (let i = 0; i < show_cart.length; i++) {
+      var total = total + show_cart[i].product.price;
     }
-    
+
     console.log(total);
-    
+
     res.render('cart.ejs', { show_cart: show_cart });
   }
 
@@ -76,10 +78,9 @@ export class CartsService {
         },
       });
 
-      return cart;
-      // res.redirect('/carts/cart')
+      // return cart;
+      res.redirect('/carts/user-cart')
       // window.location.reload();
-      
     } catch (error) {
       throw error;
     }
@@ -97,9 +98,7 @@ export class CartsService {
       });
 
       return cart;
-      // res.redirect('/carts/cart')
-      // window.location.reload();
-      
+     
     } catch (error) {
       throw error;
     }
@@ -109,7 +108,7 @@ export class CartsService {
     try {
       const cart = await this.prisma.cart.update({
         data: {
-          isdeleted:true,
+          isdeleted: true,
         },
         where: {
           // product: { connect: { id: +id.id } },
@@ -120,7 +119,6 @@ export class CartsService {
       return cart;
       // res.redirect('/carts/cart')
       // window.location.reload();
-      
     } catch (error) {
       throw error;
     }

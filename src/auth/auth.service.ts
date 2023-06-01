@@ -64,30 +64,41 @@ export class AuthService {
       throw new ForbiddenException('Credentials Incorrect');
     }
 
-    const token= await  this.signToken(user.id, user.email);
+    const token= await this.signToken(user.id, user.email,user.role_id);
 
     // const token = await this.signToken(
     //   userId: user.id,
     //   email: user.email,
+      
     // );
     console.log(token);
     
 
-    // if (!token) {
-    //   throw new ForbiddenException();
-    // }
-    res.cookie('token', token, {});
-    // res.redirect('/admin');
+    if (!token) {
+      throw new ForbiddenException();
+    }
+    res.cookie('token', token);
 
-    return user;
+    if(user.role_id==2){
+      console.log("USer");
+      
+      res.redirect('/user-dashboard/product')
+    }else if(user.role_id==1){
+      console.log("Admin");
+
+      res.redirect('/admin');
+    }
+   
+
+    
   }
 
-  signToken(userId: number, email: string) {
-    const payload = { id:userId, email:email };
+  signToken(userId: number, email: string,role:number) {
+    const payload = { id:userId, email:email,role:role };
     const secret = this.config.get('SECREAT_KEY');
 
     return this.jwt.signAsync(payload, {
-      expiresIn: '1h',
+      expiresIn: '1d',
       secret: secret,
     });
   }

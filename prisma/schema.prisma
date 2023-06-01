@@ -14,6 +14,7 @@ datasource db {
   google_id  String?   @db.VarChar(45)
   createdAt DateTime? @default(now()) @db.Timestamp(0)
   cart  cart[]
+   order order[]
   role_id Int         
   role    role  @relation(fields: [role_id], references: [id])
 }
@@ -57,6 +58,7 @@ model cart{
   number_of_items Int  @default(1)
   createdAt DateTime @default(now()) @db.Timestamp(0)
   isdeleted Boolean        @default(false)
+  order order[]
 }
 
 
@@ -65,5 +67,14 @@ model role{
    name        String     @db.VarChar(45) @unique
    permission  String?    @db.VarChar(45) @unique
    user        user[]
+   createdAt DateTime @default(now()) @db.Timestamp(0)
+}
+
+model order{
+  id         Int      @id @default(autoincrement())@unique
+  user_id Int
+  user   user    @relation(fields: [user_id], references: [id])
+  cart_id Int
+  cart  cart @ relation(fields: [cart_id], references:[id])
    createdAt DateTime @default(now()) @db.Timestamp(0)
 }

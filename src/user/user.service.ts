@@ -57,5 +57,25 @@ export class UserService {
         throw error;
       }
     }
+
+    async confirm(id,res){
+
+      const show_cart = await this.prisma.cart.findMany({
+        where: {
+          user_id: +id,
+          isdeleted: false,
+          number_of_items: { gt:0 }
+        },
+        include: { product: true },
+      });
+
+      res.render('order',{
+        show_cart:show_cart
+      })
+    }
+
+    async order(id,res) {
+
+    }
   
 }

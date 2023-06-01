@@ -12,7 +12,7 @@ import {
 import { AdminService } from './admin.service';
 import {UserDto, CategoryDto } from './dto';
 import { AuthGuard } from '@nestjs/passport';
-import { AdminRoleGuard } from 'src/auth/admin-role.guard';
+// import { AdminRoleGuard } from 'src/auth/admin-role.guard';
 import { UseRoles } from 'nest-access-control';
 
 @Controller('admin')
