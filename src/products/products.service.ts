@@ -28,7 +28,7 @@ export class ProductsService {
   }
 
   async getproduct(res) {
-    const product = "undefined";
+    const product = 'undefined';
     const category = await this.prisma.category.findMany({
       where: {
         isdeleted: false,
@@ -122,6 +122,37 @@ export class ProductsService {
         },
       });
       return res.redirect('/admin/products/product');
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async search(data, res) {
+    try {
+      const search = await this.prisma.product.findMany({
+        where: {
+          OR: [
+            {
+              name: {
+                startsWith: data,
+              },
+            },
+            {
+              category: {
+                startsWith: data,
+              },
+            },
+            {
+              description:{
+                startsWith:data
+              }
+            }
+          ],
+        },
+       
+      });
+      console.log(search);
+      return search;
     } catch (error) {
       throw error;
     }

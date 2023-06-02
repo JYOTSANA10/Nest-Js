@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 <style>
     .your_shopping_bag-box {
             background: #FFFFFF;
@@ -195,9 +197,10 @@
 </head>
 <body>
     <div id="your_shopping_bag" class="your_shopping_bag-box">
-        <h3>Your shopping bag</h3>
-        <ul class="shopping_detail">
-            <%for(var i=0; i<show_cart.length; i++) { var total=0 %>
+        <h3>Your shopping bag</h3><% var total=0 %>
+        <ul class="shopping_detail" id="change">
+            
+            <%for(var i=0; i<show_cart.length; i++) {  %>
             <li class="shopping_detail_iteam">
                 <div class="shopping_detail_iteam--img">
                     <img src="/uploads/<%=show_cart[i].product.image%>" >
@@ -233,12 +236,12 @@
                         </div>
                     </div>
                     <div class="close_iteam">
-                        <a href="/carts/delete-item?id=<%=show_cart[i].id %>">&#215;</a>
+                        <span onclick="delete_product('<%=show_cart[i].id%>')">&#215;</span>
                     </div>
                 </div>
             </li>
-            
-            <% total+=show_cart[i].product.price }  console.log(total) %>
+            <% total=total+(show_cart[i].product.price*show_cart[i].number_of_items) %>
+            <% } %>
 
 
            
@@ -259,33 +262,52 @@
     </div>
     <script>
 
-        // function back(){
-        //     fetch(`/user-dashboard/product`,{
-        //         method:'GET'
-        //     })
-        // }
+
+
+        function delete_product(id){
+            axios.get(`/carts/delete-item?id=${id}`).then(function (response) { 
+                console.log(response);
+            });
+            location.reload();
+            
+        }
 
         function minus(id){
             console.log(id);
-            fetch(`/carts/minus-item?id=${id}`,{
-                
-            })
+
+            axios.put(`/carts/minus-item?id=${id}`).then(function (response) { 
+                console.log(response);
+
+                for(var i=0;i<response.data.length;i++){
+                    set+=`<li class="shopping_detail_iteam"> <div class="shopping_detail_iteam--img"> <img src="/uploads/<%=response.data[i].product.image%>" > </div> <div class="shopping_detail_iteam--col"> <div class="shopping_detail_title"> <h4><%=response.data[i].product.name%></h4> </div> <div class="shopping_detail_value_price"> <div class="shopping_detail_value"> <div class="qty-box"> <div class="detail-qty info-qty"> <span class="qty-down" onclick="minus('<%=response.data[i].id%>')">−</span> <input type="text" data-step="1" min="1" max="10" name="quantity" value="<%=response.data[i].number_of_items%>" title="Qty" class="qty-val" size="4" > <span class="qty-up" onclick="plus('<%=response.data[i].id %>')">+</span> </div> </div> </div> <div class="shopping_detail_price"> <span><%=response.data[i].product.price%></span> </div> </div> <div class="close_iteam"> <span onclick="delete_product('<%=response.data[i].id%>')">×</span> </div> </div> </li>`
+                }
+                console.log(set);
+                    document.getElementById("change").innerHTML=set;
+                });
+
+
+           
+            
         }
 
         function plus(id){
             console.log(id);
 
+            axios.put(`/carts/plus-item?id=${id}`).then(function (response) { 
+                console.log(response);
+            });
+            location.reload();
 
-            fetch(`/carts/plus-item?id=${id}`,{
-                method:'PUT',
-                headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                }
-            }).then((res) => {
-                console.log(res);
-                window.location.reload();
-            })
+            // fetch(`/carts/plus-item?id=${id}`,{
+            //     method:'PUT',
+            //     headers: {
+            //     "Accept": "application/json",
+            //     "Content-Type": "application/json",
+            //     }
+            // }).then((res) => {
+            //     console.log(res);
+            //     window.location.reload();
+            // })
         }
     </script>
 </body>

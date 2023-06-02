@@ -68,14 +68,60 @@ export class UserService {
         },
         include: { product: true },
       });
+      console.log(show_cart);
+      var cart=[]
+      for(var i=0;i<show_cart.length;i++){
+        
+        cart.push(show_cart[i].id)
+      }
+      
+      console.log(cart);
+      
 
       res.render('order',{
-        show_cart:show_cart
+        show_cart:show_cart,
+        cart:cart
       })
     }
 
-    async order(id,res) {
 
+    async order(req,res) {
+
+      try{
+        var fist=req.query.cart
+        var cart_id=fist.toString()
+        console.log("cart_id",fist,cart_id)
+        const cart = await this.prisma.order.create({
+          data: {
+            cart_id: cart_id,
+            user: { connect: { id: +req.user.userId } },
+          },
+        });
+
+        return cart;
+
+      }catch (error) {
+        throw error;
+      }
+
+    }
+
+    async orderList(req,res){
+
+      try{
+
+        const orders=await this.prisma.order.findMany({
+          where: { user_id: +req.user.userId},
+        })
+
+        console.log(orders);
+         res.render('order-list',{
+          orders:orders
+         })
+
+      }catch (error) {
+        throw error;
+      }
     }
   
 }

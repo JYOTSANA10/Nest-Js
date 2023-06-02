@@ -7,7 +7,6 @@ export class UpdateProductDto extends PartialType(CreateProductDto) {
   @IsNotEmpty()
   name: string;
 
-  @IsNotEmpty()
   id: number;
 
   @IsNotEmpty()

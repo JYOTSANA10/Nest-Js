@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <head>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
         * {
     box-sizing: border-box;
@@ -107,7 +109,7 @@ body {
                     justify-content: flex-end;
 
                 }
-                    button {
+                    /* button {
                         padding: 10px 25px;
                         font-size: 10px;
                         color: #fff;
@@ -117,7 +119,7 @@ body {
                         letter-spacing: .5px;
                         font-weight: 200;
                         cursor: pointer;
-                    }
+                    } */
             
 
         .checkout-details {
@@ -222,7 +224,25 @@ body {
             color: inherit;
         }
 
-  
+        .your_shopping_bag-box .shopping_detail-btns .ui-btn {
+            margin-bottom: -30px;
+            min-width: 230px;
+            padding-left: 20px;
+            padding-right: 20px;
+            height: 42px;
+            text-decoration: none;
+            color: black;
+        }
+
+         .ui-btn {
+            margin-bottom: -30px;
+            min-width: 230px;
+            padding-left: 20px;
+            padding-right: 20px;
+            height: 42px;
+            text-decoration: none;
+            color: black;
+        }
 
 
     </style>
@@ -239,7 +259,8 @@ body {
 		<section class="checkout-details">
 			<div class="checkout-details-inner">
 				<div class="checkout-lists">
-            <%for(var i=0; i<show_cart.length; i++) { var total=0 %>
+                    <% var total=0 %>
+            <%for(var i=0; i<show_cart.length; i++) {  %>
 
 					<div class="card">
 						<div class="card-image"><img src="/uploads/<%=show_cart[i].product.image%>"></div>
@@ -253,20 +274,29 @@ body {
 							</div>
 						</div>
 					</div>
+                    <% total=total+(show_cart[i].product.price*show_cart[i].number_of_items) %>
 					<%} %>
 				</div>
-				<div class="checkout-shipping">
-					<h6>Shipping</h6>
-					<p>$19</p>
-				</div>
+				
 				<div class="checkout-total">
 					<h6>Total</h6>
-					<p>$148.98</p>
+					<p><%=total%></p>
 				</div>
 			</div>
+            <button class="ui-btn"  onclick="order('<%=cart%>')">Place Order </button>
+
 		</section>
 
 	</main>
+
+    <script>
+        function order(cart){
+            console.log("cart",cart);
+            axios.post(`/user-dashboard/order?cart=${cart}`).then(function (response) { return "data deleted"});
+            location.replace('/user-dashboard/final');
+
+        }
+    </script>
 
 	
 </body>

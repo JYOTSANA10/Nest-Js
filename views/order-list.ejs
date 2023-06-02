@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<head>
+    <style>
+        /*-----------------------------
+# IMPORTS
+- COLORS: https://codepen.io/luckyluu/pen/bGbLzXe
+- BREAKPOINTS: https://codepen.io/luckyluu/pen/ZEzxLxR
+- TYPO: https://codepen.io/luckyluu/pen/eYOMgXQ
+- MIXIN: https://codepen.io/luckyluu/pen/jOOVgbE
+- WOO: default components https://codepen.io/luckyluu/pen/GMpPgN
+----------------------------- */
+.woocommerce-order-overview {
+  background: #f8f8f8;
+  list-style: none;
+  margin: 2rem 0;
+  padding: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+
+  li {
+    padding: 1em 1.618em;
+    font-size: 0.8em;
+    width: 25%;
+    text-transform: uppercase;
+    border-right: 1px dotted #e3e3e3;
+    text-align: center;
+  }
+    
+    
+    &:last-child {
+      border-right: none;
+    }
+ 
+
+
+.woocommerce-table--customer-details {
+  border: none;
+}
+    tbody th {
+      background: #f8f8f8;
+      padding-left: 25px;
+    }
+     
+ 
+    tbody td {
+      background: #fdfdfd;
+      padding-left: 25px;
+      text-align: left !important;
+    }
+ 
+
+/* TABLE ORDER DETAIL */
+.shop_table.woocommerce-table--order-details {
+  box-shadow: 0 0 5px rgba(#39b44a, 0.1);
+}
+  thead {
+    background: #000;
+    color: #fff;
+  }
+    th {
+      border-bottom: none;
+      font-weight: normal;
+      font-size: .9rem;
+    }
+      &.product-name {
+        text-align: left;
+      }
+   
+
+ 
+
+    td {
+      border-color: #f0f2f7;
+    }
+ 
+
+    </style>
+</head>
+<body>
+    <div style="margin: 0 auto; max-width: 900px; padding: 50px">
+        <h2 class="woocommerce-order-details__title">Order details</h2>
+        <%for(var i = 0; i <orders.length; i++) { %>
+        <div class="woocommerce-order">
+           
+
+            <ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
+                <li class="woocommerce-order-overview__order order">
+                  Order number: <strong><%=orders[i].id</strong>
+                </li>
+               
+                <li class="woocommerce-order-overview__total total">
+                  Total: <strong><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">£</span>229.00</span></strong>
+                </li>
+                
+              </ul>
+            
+            <section class="woocommerce-order-details">
+                <table class="woocommerce-table woocommerce-table--order-details shop_table order_details">
+                  <thead>
+                    <tr>
+                      <th class="woocommerce-table__product-name product-name">Product</th>
+                      <th class="woocommerce-table__product-table product-total">Amount</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr class="woocommerce-table__line-item order_item">
+                      <td class="woocommerce-table__product-name product-name">
+                        <a href="https://demo.woothemes.com/storefront/product/standard-colander/">Standard Colander</a> <strong class="product-quantity">×
+                          1</strong> </td>
+                      <td class="woocommerce-table__product-total product-total">
+                        <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">£</span>19.99</span>
+                      </td>
+                    </tr>
+                    <tr class="woocommerce-table__line-item order_item">
+                      <td class="woocommerce-table__product-name product-name">
+                        <a href="https://demo.woothemes.com/storefront/product/scubapro-10-litre-232-bar-cylinder-single-valve/">Scubapro
+                          10 litre 232 bar cylinder – single valve</a> <strong class="product-quantity">× 1</strong> </td>
+                      <td class="woocommerce-table__product-total product-total">
+                        <span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">£</span>229.00</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                 
+                </table>
+                
+            </section>
+          </div> <!-- woocommerce-order -->
+       
+        <%}%>
+    </div>
+</body>
+</html>

@@ -95,4 +95,26 @@ export class CategoriesService {
       throw error;
     }
   }
+
+  async search(data, res) {
+    try {
+      const search = await this.prisma.category.findMany({
+        where: {
+          OR: [
+            {
+              name: {
+                startsWith: data,
+              },
+            },
+            
+          ],
+        },
+       
+      });
+      console.log(search);
+      return search;
+    } catch (error) {
+      throw error;
+    }
+  }
 }

@@ -16,27 +16,31 @@ import { AuthGuard } from '@nestjs/passport';
 import { UseRoles } from 'nest-access-control';
 
 @Controller('admin')
+@UseGuards(AuthGuard('jwt'))
+
 export class AdminController {
   constructor(private adminservice: AdminService) {}
 
   @Get('/')
-
+ @UseGuards(AuthGuard('jwt'))
   @UseRoles({
     possession:"any",
     action:'create',
     resource:'product'
   })
   @Render('admindashboard.ejs')
-  Admin() {
+  Admin(@Req() req) {
     console.log('admin');
   }
 
-  // @Get('user')
-  // @Render('admin-user.ejs')
-  // User(){
-  //   console.log("user");
+  @Get('search')
+  async User(@Req() req, @Res() res) {
+    console.log("user",req.query.data);
 
-  // }
+    const data= await this.adminservice.search(req.query.data,res)
+
+    res.send(data)
+  }
 
   // @Post('add')
   // addProduct(@Body() dto: AdminDto) {
@@ -61,8 +65,10 @@ export class AdminController {
   // }
 
   @Get('add-user')
-  @Render('edit-form')
-  getaddUser() {
+  // @Render('edit-form')
+  getaddUser(@Req() req ,@Res() res) {
+
+    this.adminservice.getaddUser(req,res);
     return {user:"undefined"}
   }
 
@@ -103,7 +109,7 @@ export class AdminController {
   //   return await this.categoriesService.update(updateCategoryDto, res);
   // }
 
-  @Put('delete-user')
+  @Post('delete-user')
   deleteUser(id: number, @Req() req, @Res() res) {
     console.log('delete user', req.query.id);
 

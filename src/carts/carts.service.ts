@@ -57,30 +57,36 @@ export class CartsService {
       include: { product: true },
     });
     console.log(show_cart);
-    for (let i = 0; i < show_cart.length; i++) {
-      var total = total + show_cart[i].product.price;
-    }
+   
 
-    console.log(total);
+   
 
     res.render('cart.ejs', { show_cart: show_cart });
   }
 
-  async minus(id, res) {
+  async minus(req, res) {
     try {
-      const cart = await this.prisma.cart.update({
+      await this.prisma.cart.update({
         data: {
           number_of_items: { decrement: 1 },
         },
         where: {
           // product: { connect: { id: +id.id } },
-          id: +id,
+          id: +req.query.id,
         },
       });
 
-      // return cart;
-      res.redirect('/carts/user-cart')
-      // window.location.reload();
+      const cart = await this.prisma.cart.findMany({
+        where: {
+          user_id: +req.user.userId,
+          isdeleted: false,
+          number_of_items: { gt:0 }
+        },
+        include: { product: true },
+      });
+
+      return cart;
+      
     } catch (error) {
       throw error;
     }

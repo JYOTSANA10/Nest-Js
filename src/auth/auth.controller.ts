@@ -42,4 +42,13 @@ export class AuthContoller {
 
     return this.authservice.login(dto2,res);
   }
+
+  @Get('sign-out')
+  SignOut(@Req() req,@Res() res) {
+    console.log("sign-out");
+    
+    return this.authservice.signOut(req,res);
+
+  }
+
 }

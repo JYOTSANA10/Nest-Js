@@ -102,4 +102,16 @@ export class AuthService {
       secret: secret,
     });
   }
+
+  async signOut(req,res){
+    try {
+      const clear=await res.clearCookie('token');
+      // console.log("clear",clear);
+      
+      res.redirect('/auth/login')
+
+    }catch(error) {
+      throw error;
+    }
+  }
 }

@@ -93,4 +93,13 @@ export class ProductsController {
     console.log(+req.query.id);
     return await this.productsService.remove(+req.query.id, res);
   }
+
+  @Get('search-product')
+  async User(@Req() req, @Res() res) {
+    console.log("user",req.query.data);
+
+    const data= await this.productsService.search(req.query.data,res)
+
+    res.send(data)
+  }
 }

@@ -66,4 +66,13 @@ export class CategoriesController {
     console.log(+req.query.id);
     return await this.categoriesService.remove(+req.query.id, res);
   }
+
+  @Get('search-category')
+  async User(@Req() req, @Res() res) {
+    console.log("user",req.query.data);
+
+    const data= await this.categoriesService.search(req.query.data,res)
+
+    res.send(data)
+  }
 }

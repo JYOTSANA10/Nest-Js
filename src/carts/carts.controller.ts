@@ -18,6 +18,8 @@ import { UpdateCartDto } from './dto/update-cart.dto';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('carts')
+@UseGuards(AuthGuard('jwt'))
+
 export class CartsController {
   constructor(private readonly cartsService: CartsService) {}
 
@@ -28,10 +30,11 @@ export class CartsController {
     return this.cartsService.cart(req.query,req.user.userId, res);
   }
 
-  @Get('minus-item')
-  Minus(@Req() req, @Res() res) {
+  @Put('minus-item')
+  async Minus(@Req() req, @Res() res) {
     console.log('minus', req.query.id);
-    return this.cartsService.minus(req.query.id, res);
+    const data=await this.cartsService.minus(req, res);
+    res.send(data)
   }
 
   @Put('plus-item')

@@ -24,7 +24,7 @@ export class UserDto {
   email: string;
   
   @IsNotEmpty()
-  roles: string;
+  role: string;
   
  
 

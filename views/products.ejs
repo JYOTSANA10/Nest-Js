@@ -7,6 +7,7 @@
     <title>Admin Dashboard </title>
     <!-- ======= Styles ====== -->
     
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <style>
 
@@ -601,7 +602,7 @@ h4 {
     
     
               <li>
-                <a href="#">
+                <a href="/auth/sign-out">
                   <span class="icon">
                     <ion-icon name="log-out-outline"></ion-icon>
                   </span>
@@ -620,7 +621,8 @@ h4 {
 
           <div class="search">
             <label>
-              <input type="text" placeholder="Search here" />
+              <input type="text" placeholder="Search here" class="search" id="search" onkeyup="searching()"/>
+
               <ion-icon name="search-outline"></ion-icon>
             </label>
           </div>
@@ -674,11 +676,9 @@ h4 {
                         <th></th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="change">
                       <% for(var i=0; i<product.length; i++) { %>
                       <tr >
-                        
-                      
                         <td><%= product[i].name %></td>
                         <td><%= product[i].price %></td>
                         <td><img src="/uploads/<%=product[i].image %>"></td>
@@ -687,24 +687,6 @@ h4 {
                         <td class="text-end">
                           <button
                           type="button" id="editbutton" class="login-trigger btn btn-sm btn-neutral" data-target="#login" data-toggle="modal" onclick="return editUser('<%= product[i].id %>')">Edit</button>
-
-                          <div id="login" class="modal fade" role="dialog"  >
-                            <div class="modal-dialog">
-                              
-                              <div class="modal-content">
-                                <div class="modal-body">
-                                  <button data-dismiss="modal" class="close">&times;</button>
-                                  <h4>Edit</h4>
-                                  <form>
-                                    <input type="text" name="username" class="username form-control" placeholder="Username"/>
-                                    <input type="password" name="password" class="password form-control" placeholder="password"/>
-                                    <input class="btn login" type="submit" value="Login" />
-                                  </form>
-                                </div>
-                              </div>
-                            </div>  
-                          </div>
-
 
                           <button
                             type="button"
@@ -733,6 +715,24 @@ h4 {
     <!-- =========== Scripts =========  -->
    
     <script>
+
+async function searching(){
+
+var val= document.getElementById("search").value
+console.log(val);
+var set = '';
+await axios.get(`/admin/products/search-product?data=${val}`).then(function (response) { 
+ console.log("datt ===",response.data);
+
+
+ for(var i=0;i<response.data.length;i++){
+  set+=`<tr > <td>${response.data[i].name }</td> <td>${ response.data[i].price }</td> <td><img src="/uploads/${response.data[i].image}"></td> <td>${ response.data[i].category }</td> <td>${ response.data[i].description }</td> <td class="text-end"> <button type="button" id="editbutton" class="login-trigger btn btn-sm btn-neutral" data-target="#login" data-toggle="modal" onclick="return editUser('${ response.data[i].id }')">Edit</button> <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover" onclick=" userdelete('${ response.data[i].id }')"> <i class="bi bi-trash"></i> </button> </td> </tr>`
+}
+  console.log(set);
+  document.getElementById("change").innerHTML=set;
+});
+
+}
 
       function userdelete(id) {
         console.log(id);

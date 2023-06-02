@@ -4,9 +4,10 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Responsive Admin Dashboard | Korsat X Parmaga</title>
+    <title>Admin Dashboard</title>
     <!-- ======= Styles ====== -->
     <link rel="stylesheet" href="assets/css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <style>
       /* =========== Google Fonts ============ */
@@ -533,7 +534,7 @@
 
 
           <li>
-            <a href="#">
+            <a href="/auth/sign-out">
               <span class="icon">
                 <ion-icon name="log-out-outline"></ion-icon>
               </span>
@@ -552,7 +553,7 @@
 
           <div class="search">
             <label>
-              <input type="text" placeholder="Search here" />
+              <input type="text" placeholder="Search here" class="search" id="search" onkeyup="searching()"/>
               <ion-icon name="search-outline"></ion-icon>
             </label>
           </div>
@@ -813,6 +814,18 @@
 
     <!-- =========== Scripts =========  -->
     <script src="assets/js/main.js"></script>
+    <script>
+      function searching(){
+
+       var val= document.getElementById("search").value
+       console.log(val);
+
+       axios.get(`/admin/search?data=${val}`).then(function (response) { 
+        console.log(response);
+       });
+       
+      }
+    </script>
 
     <!-- ====== ionicons ======= -->
     <script
