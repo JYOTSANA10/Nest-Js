@@ -10,12 +10,18 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { UserService } from './user.service';
 // import { AdminRoleGuard } from 'src/auth/admin-role.guard';
+import { AdminRoleGuard } from 'src/auth/admin-role.guard';
+import { JwtService } from '@nestjs/jwt';
 
 @Controller('user-dashboard')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   @Get('/product')
+  @UseGuards(AdminRoleGuard)
   @UseGuards(AuthGuard('jwt'))
   async UserData(@Req() req, @Res() res) {
     // console.log("req",req['user']);
@@ -54,11 +60,9 @@ export class UserController {
 
   @Get('/order-list')
   @UseGuards(AuthGuard('jwt'))
-  async OrderList(@Req() req,@Res() res){
-
+  async OrderList(@Req() req, @Res() res) {
     console.log(req.user);
-    
-    return await this.userService.orderList(req,res);
-    
+
+    return await this.userService.orderList(req, res);
   }
 }

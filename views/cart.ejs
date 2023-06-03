@@ -198,8 +198,8 @@
 <body>
     <div id="your_shopping_bag" class="your_shopping_bag-box">
         <h3>Your shopping bag</h3><% var total=0 %>
-        <ul class="shopping_detail" id="change">
-            
+        <ul class="shopping_detail" >
+            <div id="change">
             <%for(var i=0; i<show_cart.length; i++) {  %>
             <li class="shopping_detail_iteam">
                 <div class="shopping_detail_iteam--img">
@@ -242,17 +242,21 @@
             </li>
             <% total=total+(show_cart[i].product.price*show_cart[i].number_of_items) %>
             <% } %>
+        </div>
 
-
-           
-            <li class="shopping_detail_total">
+            
+            <li class="shopping_detail_total" >
                 <div class="shopping_detail_total--title">
                     TOTAL
                 </div>
-                <div class="shopping_detail_total--price">
+                <div class="shopping_detail_total--price" id="change2">
                     <%= total %>
                 </div>
             </li>
+           
+           
+
+            
 
         </ul>
         <div class="shopping_detail-btns">
@@ -265,24 +269,40 @@
 
 
         function delete_product(id){
-            axios.get(`/carts/delete-item?id=${id}`).then(function (response) { 
-                console.log(response);
+            var set='';
+            var total=0
+            
+            axios.put(`/carts/delete-item?id=${id}`).then(function (response) { 
+              
+                for(var i=0;i<response.data.length;i++){
+                    total=total+(response.data[i].product.price*response.data[i].number_of_items)
+                    set+=`<li class="shopping_detail_iteam"> <div class="shopping_detail_iteam--img"> <img src="/uploads/${response.data[i].product.image}" > </div> <div class="shopping_detail_iteam--col"> <div class="shopping_detail_title"> <h4>${response.data[i].product.name}</h4> </div> <div class="shopping_detail_value_price"> <div class="shopping_detail_value"> <div class="qty-box"> <div class="detail-qty info-qty"> <span class="qty-down" onclick="minus('${response.data[i].id}')">−</span> <input type="text" data-step="1" min="1" max="10" name="quantity" value="${response.data[i].number_of_items}" title="Qty" class="qty-val" size="4" > <span class="qty-up" onclick="plus('${response.data[i].id }')">+</span> </div> </div> </div> <div class="shopping_detail_price"> <span>${response.data[i].product.price}</span> </div> </div> <div class="close_iteam"> <span onclick="delete_product('${response.data[i].id}')">×</span> </div> </div> </li>`
+                   
+                }
+                console.log(total);
+                    document.getElementById("change").innerHTML=set;
+                    document.getElementById("change2").innerHTML=total;
+
             });
-            location.reload();
+            
             
         }
 
         function minus(id){
             console.log(id);
-
+            var total=0
+            var set='';
             axios.put(`/carts/minus-item?id=${id}`).then(function (response) { 
                 console.log(response);
 
                 for(var i=0;i<response.data.length;i++){
-                    set+=`<li class="shopping_detail_iteam"> <div class="shopping_detail_iteam--img"> <img src="/uploads/<%=response.data[i].product.image%>" > </div> <div class="shopping_detail_iteam--col"> <div class="shopping_detail_title"> <h4><%=response.data[i].product.name%></h4> </div> <div class="shopping_detail_value_price"> <div class="shopping_detail_value"> <div class="qty-box"> <div class="detail-qty info-qty"> <span class="qty-down" onclick="minus('<%=response.data[i].id%>')">−</span> <input type="text" data-step="1" min="1" max="10" name="quantity" value="<%=response.data[i].number_of_items%>" title="Qty" class="qty-val" size="4" > <span class="qty-up" onclick="plus('<%=response.data[i].id %>')">+</span> </div> </div> </div> <div class="shopping_detail_price"> <span><%=response.data[i].product.price%></span> </div> </div> <div class="close_iteam"> <span onclick="delete_product('<%=response.data[i].id%>')">×</span> </div> </div> </li>`
+                    total=total+(response.data[i].product.price*response.data[i].number_of_items)
+
+                    set+=`<li class="shopping_detail_iteam"> <div class="shopping_detail_iteam--img"> <img src="/uploads/${response.data[i].product.image}" > </div> <div class="shopping_detail_iteam--col"> <div class="shopping_detail_title"> <h4>${response.data[i].product.name}</h4> </div> <div class="shopping_detail_value_price"> <div class="shopping_detail_value"> <div class="qty-box"> <div class="detail-qty info-qty"> <span class="qty-down" onclick="minus('${response.data[i].id}')">−</span> <input type="text" data-step="1" min="1" max="10" name="quantity" value="${response.data[i].number_of_items}" title="Qty" class="qty-val" size="4" > <span class="qty-up" onclick="plus('${response.data[i].id }')">+</span> </div> </div> </div> <div class="shopping_detail_price"> <span>${response.data[i].product.price}</span> </div> </div> <div class="close_iteam"> <span onclick="delete_product('${response.data[i].id}')">×</span> </div> </div> </li>`
                 }
-                console.log(set);
                     document.getElementById("change").innerHTML=set;
+                    document.getElementById("change2").innerHTML=total;
+
                 });
 
 
@@ -293,10 +313,21 @@
         function plus(id){
             console.log(id);
 
+            var set='';
+            var total=0
             axios.put(`/carts/plus-item?id=${id}`).then(function (response) { 
                 console.log(response);
+                for(var i=0;i<response.data.length;i++){
+                    total=total+(response.data[i].product.price*response.data[i].number_of_items)
+
+                    set+=`<li class="shopping_detail_iteam"> <div class="shopping_detail_iteam--img"> <img src="/uploads/${response.data[i].product.image}" > </div> <div class="shopping_detail_iteam--col"> <div class="shopping_detail_title"> <h4>${response.data[i].product.name}</h4> </div> <div class="shopping_detail_value_price"> <div class="shopping_detail_value"> <div class="qty-box"> <div class="detail-qty info-qty"> <span class="qty-down" onclick="minus('${response.data[i].id}')">−</span> <input type="text" data-step="1" min="1" max="10" name="quantity" value="${response.data[i].number_of_items}" title="Qty" class="qty-val" size="4" > <span class="qty-up" onclick="plus('${response.data[i].id }')">+</span> </div> </div> </div> <div class="shopping_detail_price"> <span>${response.data[i].product.price}</span> </div> </div> <div class="close_iteam"> <span onclick="delete_product('${response.data[i].id}')">×</span> </div> </div> </li>`
+                }
+                console.log(set);
+                    document.getElementById("change").innerHTML=set;
+                    document.getElementById("change2").innerHTML=total;
+                    
             });
-            location.reload();
+           
 
             // fetch(`/carts/plus-item?id=${id}`,{
             //     method:'PUT',

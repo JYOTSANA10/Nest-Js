@@ -64,7 +64,8 @@ export class CategoriesController {
   @Post('delete-category')
   async remove(@Req() req, @Res() res) {
     console.log(+req.query.id);
-    return await this.categoriesService.remove(+req.query.id, res);
+    const data= await this.categoriesService.remove(req, res);
+    res.send(data);
   }
 
   @Get('search-category')

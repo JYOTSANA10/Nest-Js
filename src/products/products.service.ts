@@ -9,12 +9,34 @@ export class ProductsService {
   async create(createProductDto: CreateProductDto, res, filepath) {
     try {
       console.log(createProductDto.category);
+      var id_arr = [];
+      for (var i = 0; i < createProductDto.category.length; i++) {
+        const id = await this.prisma.category.findFirst({
+          where: {
+            name: createProductDto.category[i],
+          },
+        });
+        console.log('id', id.id);
+        id_arr.push(id.id);
+      }
+      console.log(id_arr);
+      let categoryObject = id_arr.toString().split(',');
+      console.log(categoryObject);
+
+      let result = Object.keys(categoryObject).map((key) => ({
+        id: Number(categoryObject[key]),
+      }));
+
+      console.log(result);
 
       await this.prisma.product.create({
         data: {
           name: createProductDto.name,
           price: Number(createProductDto.price),
-          category: createProductDto.category,
+          category: {
+            connect: result,
+          },
+
           image: filepath,
 
           description: createProductDto.description,
@@ -46,10 +68,12 @@ export class ProductsService {
     try {
       // console.log('Category');
       const product = await this.prisma.product.findMany({
+        include: { category: true },
         where: {
           isdeleted: false,
         },
       });
+      // console.log(product);
 
       res.render('products', {
         product: product,
@@ -72,9 +96,10 @@ export class ProductsService {
         where: {
           id: Number(id),
         },
+        include: { category: true },
       });
 
-      res.render('add-product', {
+      res.render('product-show', {
         product: product,
         category: category,
       });
@@ -84,23 +109,63 @@ export class ProductsService {
   }
 
   async update(updateProductDto: UpdateProductDto, res) {
-    console.log('update data in product=', updateProductDto);
+    console.log('update data in product=', typeof updateProductDto.category);
 
     try {
-      console.log('try');
+      // if (typeof updateProductDto.category == 'string') {
+      //   const id = await this.prisma.category.findFirst({
+      //     where: {
+      //       name: updateProductDto.category,
+      //     },
+      //   });
+
+      //   const product = await this.prisma.product.update({
+      //     data: {
+      //       name: updateProductDto.name,
+
+      //       price: Number(updateProductDto.price),
+      //       description: updateProductDto.description,
+      //       category: {
+      //         connect: id,
+      //       },
+      //     },
+      //     where: {
+      //       id: Number(updateProductDto.id),
+      //     },
+      //   });
+      // } else {
+      var id_arr = [];
+      for (var i = 0; i < updateProductDto.category.length; i++) {
+        const id = await this.prisma.category.findFirst({
+          where: {
+            name: updateProductDto.category[i],
+          },
+        });
+        console.log('id', id);
+        id_arr.push(id.id);
+      }
+      console.log(id_arr);
+      let categoryObject = id_arr.toString().split(',');
+      console.log(categoryObject);
+
+      let result = Object.keys(categoryObject).map((key) => ({
+        id: Number(categoryObject[key]),
+      }));
+
+      console.log(result);
+
       const product = await this.prisma.product.update({
-        data: {
-          name: updateProductDto.name,
-          category: updateProductDto.category,
-          price: Number(updateProductDto.price),
-          description: updateProductDto.description,
-        },
         where: {
           id: Number(updateProductDto.id),
         },
+        data: {
+          name: updateProductDto.name,
+          price: Number(updateProductDto.price),
+          description: updateProductDto.description,
+          category: { connect: result },
+        },
       });
-
-      console.log('update product', product);
+      console.log('product', product);
 
       res.redirect('/admin/products/product');
     } catch (error) {
@@ -108,20 +173,25 @@ export class ProductsService {
     }
   }
 
-  async remove(id: number, res) {
-    console.log(id);
-
+  async remove(req, res) {
     try {
       // console.log('try');
-      const product = await this.prisma.product.update({
+      await this.prisma.product.update({
         data: {
           isdeleted: true,
         },
         where: {
-          id: id,
+          id: +req.query.id,
         },
       });
-      return res.redirect('/admin/products/product');
+
+      const product = await this.prisma.product.findMany({
+        where: {
+          isdeleted: false,
+        },
+      });
+
+      return product;
     } catch (error) {
       throw error;
     }
@@ -130,26 +200,32 @@ export class ProductsService {
   async search(data, res) {
     try {
       const search = await this.prisma.product.findMany({
+        orderBy: {
+          name: `asc`,
+        },
         where: {
-          OR: [
+
+          AND: [
             {
-              name: {
-                startsWith: data,
-              },
+              isdeleted: false,
             },
             {
-              category: {
-                startsWith: data,
-              },
+              OR: [
+                {
+                  name: {
+                    startsWith: data,
+                  },
+                },
+               
+                {
+                  description: {
+                    startsWith: data,
+                  },
+                },
+              ],
             },
-            {
-              description:{
-                startsWith:data
-              }
-            }
           ],
         },
-       
       });
       console.log(search);
       return search;

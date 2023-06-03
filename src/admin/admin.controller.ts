@@ -110,10 +110,11 @@ export class AdminController {
   // }
 
   @Post('delete-user')
-  deleteUser(id: number, @Req() req, @Res() res) {
+ async deleteUser(id: number, @Req() req, @Res() res) {
     console.log('delete user', req.query.id);
 
-    return this.adminservice.deleteUser(req.query.id, res);
+    const data=await this.adminservice.deleteUser(req, res);
+    res.send(data);
   }
 
   // @Post('add-category')

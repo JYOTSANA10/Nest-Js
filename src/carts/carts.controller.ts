@@ -40,16 +40,17 @@ export class CartsController {
   @Put('plus-item')
   async Plus(@Req() req, @Res() res) {
     console.log('plus', req.query.id);
-   const item=await this.cartsService.plus(req.query.id, res);
+   const data=await this.cartsService.plus(req, res);
 
   
-    return item;
+    res.send(data);
   }
 
-  @Get('delete-item')
-  Delete(@Req() req, @Res() res) {
+  @Put('delete-item')
+  async Delete(@Req() req, @Res() res) {
     console.log('delete', req.query.id);
-    return this.cartsService.delete(req.query.id, res);
+    const data=await this.cartsService.delete(req, res);
+    res.send(data)
   }
 
   @Post()

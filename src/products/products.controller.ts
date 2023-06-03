@@ -49,32 +49,31 @@ export class ProductsController {
     },
   });
 
- @Post('add-product')
+  @Post('add-product')
   @UseInterceptors(FileInterceptor('image'))
- async create(
+  async create(
     @Body() createProductDto: CreateProductDto,
     @Res() res,
     @UploadedFile()
     file: Express.Multer.File,
   ) {
-    console.log("createProductDto",createProductDto);
+    console.log('createProductDto', createProductDto);
 
     const filepath = file.filename;
 
     console.log(file);
-    
 
     return await this.productsService.create(createProductDto, res, filepath);
   }
 
   @Get('product')
- async findAll(@Req() req, @Res() res) {
+  async findAll(@Req() req, @Res() res) {
     // console.log(req)
     return await this.productsService.findAll(req, res);
   }
 
   @Get('edit-product')
-  // @Render('add-product')
+  // @Render('product-show')
   async findOne(@Req() req, @Res() res) {
     console.log('edit controller', req.query);
 
@@ -82,7 +81,8 @@ export class ProductsController {
   }
 
   @Post('edit-product')
-  async update(@Body() updateProductDto: UpdateProductDto, @Res() res) {
+  async update(@Body() updateProductDto: UpdateProductDto, @Res() res,@UploadedFile()
+  file: Express.Multer.File,) {
     console.log('updateProductDto', updateProductDto);
 
     return await this.productsService.update(updateProductDto, res);
@@ -91,15 +91,16 @@ export class ProductsController {
   @Post('delete-product')
   async remove(@Req() req, @Res() res) {
     console.log(+req.query.id);
-    return await this.productsService.remove(+req.query.id, res);
+    const data= await this.productsService.remove(req, res);
+    res.send(data);
   }
 
   @Get('search-product')
   async User(@Req() req, @Res() res) {
-    console.log("user",req.query.data);
+    console.log('user', req.query.data);
 
-    const data= await this.productsService.search(req.query.data,res)
+    const data = await this.productsService.search(req.query.data, res);
 
-    res.send(data)
+    res.send(data);
   }
 }

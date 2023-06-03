@@ -76,20 +76,26 @@ export class CategoriesService {
     }
   }
 
-  async remove(id: number, res) {
-    console.log(id);
+  async remove(req, res) {
 
     try {
       // console.log('try');
-      const category = await this.prisma.category.update({
+       await this.prisma.category.update({
         data: {
           isdeleted: true,
         },
         where: {
-          id: id,
+          id: +req.query.id,
         },
       });
-      return res.redirect('/categories/category');
+
+      const category = await this.prisma.category.findMany({
+        where:{
+          isdeleted :false,
+        }
+      });
+
+      return category;
 
     } catch (error) {
       throw error;
@@ -100,14 +106,22 @@ export class CategoriesService {
     try {
       const search = await this.prisma.category.findMany({
         where: {
-          OR: [
+          AND:[
             {
-              name: {
-                startsWith: data,
-              },
-            },
-            
-          ],
+              isdeleted :false,
+            },{
+
+              OR: [
+                {
+                  name: {
+                    startsWith: data,
+                  },
+                },
+                
+              ],
+            }
+          ]
+          
         },
        
       });

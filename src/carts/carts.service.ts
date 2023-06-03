@@ -91,16 +91,25 @@ export class CartsService {
       throw error;
     }
   }
-  async plus(id, res) {
+  async plus(req, res) {
     try {
-      const cart = await this.prisma.cart.update({
+      await this.prisma.cart.update({
         data: {
           number_of_items: { increment: 1 },
         },
         where: {
           // product: { connect: { id: +id.id } },
-          id: +id,
+          id: +req.query.id,
         },
+      });
+
+      const cart = await this.prisma.cart.findMany({
+        where: {
+          user_id: +req.user.userId,
+          isdeleted: false,
+          number_of_items: { gt:0 }
+        },
+        include: { product: true },
       });
 
       return cart;
@@ -110,21 +119,30 @@ export class CartsService {
     }
   }
 
-  async delete(id, res) {
+  async delete(req, res) {
     try {
-      const cart = await this.prisma.cart.update({
+      await this.prisma.cart.update({
         data: {
           isdeleted: true,
         },
         where: {
           // product: { connect: { id: +id.id } },
-          id: +id,
+          id: +req.query.id,
         },
+      });
+
+      const cart = await this.prisma.cart.findMany({
+        where: {
+          user_id: +req.user.userId,
+          isdeleted: false,
+          number_of_items: { gt:0 }
+        },
+        include: { product: true },
       });
 
       return cart;
       // res.redirect('/carts/cart')
-      // window.location.reload();
+      
     } catch (error) {
       throw error;
     }

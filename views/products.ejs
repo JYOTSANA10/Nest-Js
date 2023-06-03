@@ -666,10 +666,10 @@ h4 {
                   <table class="table table-hover table-nowrap">
                     <thead class="thead-light">
                       <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Price</th>
+                        <th scope="col" id="name" onclick="sorting(this.id)" >Name</th>
+                        <th scope="col" id="price" onclick="sorting(this.id)">Price</th>
                         <th scope="col">Image</th>
-                        <th scope="col"> Category</th>
+                        <th scope="col" id="category" onclick="sorting(this.id)" > Category</th>
                         <th scope="col">Description</th>
 
                         
@@ -682,7 +682,11 @@ h4 {
                         <td><%= product[i].name %></td>
                         <td><%= product[i].price %></td>
                         <td><img src="/uploads/<%=product[i].image %>"></td>
-                        <td><%= product[i].category %></td>
+                        <td>
+                        <%for(var j=0 ; j<product[i].category.length; j++){%>
+                        <%= product[i].category[j].name %>,
+                        <%}%>
+                      </td>
                         <td><%= product[i].description %></td>
                         <td class="text-end">
                           <button
@@ -734,11 +738,27 @@ await axios.get(`/admin/products/search-product?data=${val}`).then(function (res
 
 }
 
-      function userdelete(id) {
+  async function sorting(sort){
+   
+    console.log(sort);
+    await axios.post(`/admin/products/sort-product?data=${val}`).then(function (response){});
+  }
+
+     async function userdelete(id) {
         console.log(id);
-        fetch(`/admin/products/delete-product?id=${id}`,{
-          method: 'POST'
-        })
+        
+
+        var set = '';
+await axios.post(`/admin/products/delete-product?id=${id}`).then(function (response) { 
+ console.log("datt ===",response.data);
+
+
+ for(var i=0;i<response.data.length;i++){
+  set+=`<tr > <td>${response.data[i].name }</td> <td>${ response.data[i].price }</td> <td><img src="/uploads/${response.data[i].image}"></td> <td>${ response.data[i].category }</td> <td>${ response.data[i].description }</td> <td class="text-end"> <button type="button" id="editbutton" class="login-trigger btn btn-sm btn-neutral" data-target="#login" data-toggle="modal" onclick="return editUser('${ response.data[i].id }')">Edit</button> <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover" onclick=" userdelete('${ response.data[i].id }')"> <i class="bi bi-trash"></i> </button> </td> </tr>`
+}
+  console.log(set);
+  document.getElementById("change").innerHTML=set;
+});
 
       }
 

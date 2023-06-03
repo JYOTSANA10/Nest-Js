@@ -42,6 +42,7 @@
     "cookie-parser": "^1.4.6",
     "ejs": "^3.1.9",
     "hbs": "^4.2.0",
+    "mobiscroll": "^3.0.0-beta6",
     "nest-access-control": "^2.2.0",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",

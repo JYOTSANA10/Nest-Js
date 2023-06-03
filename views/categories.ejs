@@ -725,11 +725,20 @@ await axios.get(`/categories/search-category?data=${val}`).then(function (respon
 
 }
 
-      function deleteCategories(id) {
+      async function deleteCategories(id) {
         console.log(id);
-        fetch(`/categories/delete-category?id=${id}`,{
-          method: 'Post',
-        })
+       
+        var set = '';
+await axios.post(`/categories/delete-category?id=${id}`).then(function (response) { 
+ console.log("datt ===",response.data);
+
+
+ for(var i=0;i<response.data.length;i++){
+  set+=`<tr > <td>${response.data[i].name }</td> <td class="text-end"> <button type="button" id="editbutton" class="login-trigger btn btn-sm btn-neutral" data-target="#login" data-toggle="modal" onclick="return editUser('${ response.data[i].id }')">Edit</button> <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover" onclick=" userdelete('${ response.data[i].id }')"> <i class="bi bi-trash"></i> </button> </td> </tr>`
+}
+  console.log(set);
+  document.getElementById("change").innerHTML=set;
+});
 
       }
 

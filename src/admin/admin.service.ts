@@ -210,20 +210,28 @@ export class AdminService {
 
   async deleteUser(req, res) {
     console.log('service', req);
-    let id = JSON.parse(req.toString());
+   
 
     try {
       // console.log("try");
-      const user = await this.prisma.user.update({
+      await this.prisma.user.update({
         data: {
           isdeleted: true,
         },
         where: {
-          id: id,
+          id: +req.query.id,
         },
       });
+      const user = await this.prisma.user.findMany({
+        where: {
+          isdeleted: false,
+          id: { gt: 1 },
+        },
+        include: { role: true },
 
-      res.redirect('/admin/user/');
+      });
+      return user;
+      
     } catch (error) {
       throw error;
     }
@@ -296,19 +304,28 @@ export class AdminService {
       try {
         const search = await this.prisma.user.findMany({
           where: {
-            OR: [
+            AND:[
               {
-                email: {
-                  startsWith: data,
-                },
+                isdeleted:false,
               },
               {
-                name: {
-                  startsWith: data,
-                }
-              },
-              
-            ],
+
+                OR: [
+                  {
+                    email: {
+                      startsWith: data,
+                    },
+                  },
+                  {
+                    name: {
+                      startsWith: data,
+                    }
+                  },
+                  
+                ],
+              }
+            ]
+            
           },
           include:{role:true}
         });

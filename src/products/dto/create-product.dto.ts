@@ -11,8 +11,8 @@ export class CreateProductDto {
   image;
 
   @IsNotEmpty()
-  @IsString()
-  category:string
+  
+  category:[]
 
   @IsNotEmpty()
   @IsString()
