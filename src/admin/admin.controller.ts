@@ -117,25 +117,12 @@ export class AdminController {
     res.send(data);
   }
 
-  // @Post('add-category')
-  // addCategory(@Body() dto: CategoryDto) {
-  //   console.log('user', dto);
-  //   return this.adminservice.addCategory(dto);
-  // }
+  @Post('sort-user')
+  async Sort(@Req() req, @Res() res) {
+    console.log('user', req.query.data);
 
-  //   @Get('read-category')
-  //   readCategory() {
-  //     return this.adminservice.readCategory();
-  //   }
+    const data = await this.adminservice.sort(req.query, res);
 
-  // @Put('edit-category')
-  // editCategory(@Body() dto: CategoryDto) {
-  //   // console.log(data)
-  //   return this.adminservice.editCategory(dto);
-  // }
-
-  // @Put('delete-category')
-  // deleteCategory(@Body() dto: CategoryDto) {
-  //   return this.adminservice.deleteCategory(dto);
-  // }
+    res.send(data);
+  }
 }

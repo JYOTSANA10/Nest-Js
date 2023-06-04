@@ -103,4 +103,13 @@ export class ProductsController {
 
     res.send(data);
   }
+
+  @Post('sort-product')
+  async Sort(@Req() req, @Res() res) {
+    console.log('user', req.query.data);
+
+    const data = await this.productsService.sort(req.query, res);
+
+    res.send(data);
+  }
 }

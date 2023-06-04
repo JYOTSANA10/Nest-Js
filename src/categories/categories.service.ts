@@ -24,14 +24,50 @@ export class CategoriesService {
   async findAll(req, res) {
     try {
       console.log('Category');
+      const total = await this.prisma.category.count({
+          where:{
+          isdeleted :false,
+        }
+      });
+      console.log('total', total);
+      const page =  req.query.page||1;
+      const perPage =  2;
+  
+      const skip = page > 0 ? perPage * (page - 1) : 0;
       const category = await this.prisma.category.findMany({
+        skip: skip,
+        take: perPage,
         where:{
           isdeleted :false,
         }
       });
+      const lastPage = Math.ceil(total / perPage);
       res.render('categories', {
         category: category,
+        lastPage: lastPage
       });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async pagination(req, res) {
+    try {
+      console.log('Category');
+      
+      const page =  req.query.page||1;
+      const perPage =  2;
+  
+      const skip = page > 0 ? perPage * (page - 1) : 0;
+      const category = await this.prisma.category.findMany({
+        skip: skip,
+        take: perPage,
+        where:{
+          isdeleted :false,
+        }
+      });
+    
+      return category;
     } catch (error) {
       throw error;
     }
@@ -128,6 +164,32 @@ export class CategoriesService {
       console.log(search);
       return search;
     } catch (error) {
+      throw error;
+    }
+  }
+
+  async sort(req, res) {
+    try{
+      
+      const page =  1;
+      const perPage =  2;
+  
+      const skip = page > 0 ? perPage * (page - 1) : 0;
+      const sort = await this.prisma.category.findMany({
+        skip: skip,
+        take: perPage,
+        orderBy:{
+          name: req.type,
+        },
+       
+        where:{
+          isdeleted: false,
+        }
+      })
+      return sort;
+    
+     
+    }catch(error) {
       throw error;
     }
   }

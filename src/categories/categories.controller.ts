@@ -37,14 +37,16 @@ export class CategoriesController {
     // console.log('findAll');
 
     return await this.categoriesService.findAll(req, res);
+    
   }
 
-  // @Get('edit-category?id')
-  // findOne(@Param('id') id: number) {
-  //   console.log("get",id);
+  @Post('/category/page')
+  async Pagination(@Req() req, @Res() res) {
+    // console.log('findAll');
 
-  //   // return this.categoriesService.findOne(+id);
-  // }
+    const data= await this.categoriesService.pagination(req, res);
+    res.send(data);
+  }
 
   @Get('edit-category')
   @Render('add-category')
@@ -75,5 +77,14 @@ export class CategoriesController {
     const data= await this.categoriesService.search(req.query.data,res)
 
     res.send(data)
+  }
+
+  @Post('sort-category')
+  async Sort(@Req() req, @Res() res) {
+    console.log('user', req.query.data);
+
+    const data = await this.categoriesService.sort(req.query, res);
+
+    res.send(data);
   }
 }

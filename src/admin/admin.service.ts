@@ -336,4 +336,35 @@ export class AdminService {
         throw error;
       }
     }
+
+    async sort(req, res) {
+      try{
+        if(req.data=='name'){
+        const sort = await this.prisma.user.findMany({
+          orderBy:{
+            name: req.type,
+          },
+          include:{role:true},
+          where:{
+            isdeleted: false,
+          }
+        })
+        return sort;
+      }else if(req.data=='email'){
+        const sort = await this.prisma.user.findMany({
+          orderBy:{
+            email: req.type,
+          },
+          include:{role:true},
+          where:{
+            isdeleted: false,
+          }
+        })
+        return sort;
+      }
+       
+      }catch(error) {
+        throw error;
+      }
+    }
 }

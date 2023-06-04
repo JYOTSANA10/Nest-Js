@@ -544,6 +544,10 @@ h4 {
   background: #FAB87F;
   color: #fff;
 }
+
+#name, #email{
+  cursor: pointer;
+}
     </style>
   </head>
 
@@ -662,9 +666,11 @@ h4 {
                 <div class="table-responsive">
                   <table class="table table-hover table-nowrap">
                     <thead class="thead-light" >
+                      <input type="text" class="number" id="number" value="1" hidden>
+
                       <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email</th>
+                        <th scope="col" id="name" onclick="sorting(this.id)">Name</th>
+                        <th scope="col" id="email"onclick="sorting(this.id)" >Email</th>
                         <th scope="col">Role</th>
                         <!-- <th scope="col">Password</th> -->
                         
@@ -744,12 +750,7 @@ await axios.get(`/admin/search?data=${val}`).then(function (response) {
   document.getElementById("change").innerHTML=set;
 
         });
-        
-
-        // fetch(`/admin/delete-user?id=${id}`,{
-        //   method: 'PUT'
-        // })
-
+    
       }
 
       function addUser(){
@@ -760,27 +761,63 @@ await axios.get(`/admin/search?data=${val}`).then(function (response) {
 
       function editUser(id) {
         console.log(id);
-        // fetch(`/admin/edit-user?id=${id}`,{
-        //   method: 'GET'
-        // })
-        // axios.put(`/admin/edit-user?id=${id}`).then(function (response) { return "edit User"});
-
-
+       
         location.assign(`/admin/edit-user?id=${id}`)
 
       }
 
 
-      // document.getElementById("editbutton").addEventListener("click", function(event){
-      // event.preventDefault();
+      async function sorting(sort){
+      console.log(sort);
+    var set = '';
+    number=document.getElementById("number").value;
+    console.log(number);
+    if(number%2==0){
+      var plus=++number;
+      document.getElementById("number").value=plus;
+      console.log("plus",plus);
+      console.log("if",number%2==0);
+    var sort_type = 'desc';
+    await axios.post(`/admin/sort-user?data=${sort}&type=${sort_type}`).then(function (response){
+      console.log(response);
 
-      // var element = document.getElementById("myDIV");
-      // element.classList.add("mystyle");
+ for(var i=0;i<response.data.length;i++){
+  
+  set+=`<tr><td>${ response.data[i].name }</td><td>${ response.data[i].email}</td><td>${ response.data[i].role.name }</td><td class="text-end"><button type="button" id="editbutton" class="login-trigger btn btn-sm btn-neutral" data-target="#login" data-toggle="modal" onclick="return editUser('${ response.data[i].id}')">Edit</button><button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover" onclick=" userdelete('${ response.data[i].id }')"><i class="bi bi-trash"></i></button></td></tr>`
 
 
-        
-// });
+}
+  console.log(set);
+  document.getElementById("change").innerHTML=set;
+    });
 
+    }else{
+      var plus=++number;
+      console.log("plus",plus);
+      document.getElementById("number").value=plus;
+
+      
+      console.log("else",number%2==0);
+    var sort_type = 'asc';
+    await axios.post(`/admin/sort-user?data=${sort}&type=${sort_type}`).then(function (response){
+      console.log(response);
+
+ for(var i=0;i<response.data.length;i++){
+  
+  set+=`<tr><td>${ response.data[i].name }</td><td>${ response.data[i].email}</td><td>${ response.data[i].role.name }</td><td class="text-end"><button type="button" id="editbutton" class="login-trigger btn btn-sm btn-neutral" data-target="#login" data-toggle="modal" onclick="return editUser('${ response.data[i].id}')">Edit</button><button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover" onclick=" userdelete('${ response.data[i].id }')"><i class="bi bi-trash"></i></button></td></tr>`
+
+
+}
+  console.log(set);
+  document.getElementById("change").innerHTML=set;
+    });
+
+    }
+   
+  }
+
+
+      
 
     </script>
 

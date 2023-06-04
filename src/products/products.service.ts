@@ -200,9 +200,7 @@ export class ProductsService {
   async search(data, res) {
     try {
       const search = await this.prisma.product.findMany({
-        orderBy: {
-          name: `asc`,
-        },
+        include:{category:true},
         where: {
 
           AND: [
@@ -226,10 +224,42 @@ export class ProductsService {
             },
           ],
         },
+       
       });
       console.log(search);
       return search;
     } catch (error) {
+      throw error;
+    }
+  }
+
+  async sort(req, res) {
+    try{
+      if(req.data=='name'){
+      const sort = await this.prisma.product.findMany({
+        orderBy:{
+          name: req.type,
+        },
+        include:{category:true},
+        where:{
+          isdeleted: false,
+        }
+      })
+      return sort;
+    }else if(req.data=='price'){
+      const sort = await this.prisma.product.findMany({
+        orderBy:{
+          price: req.type,
+        },
+        include:{category:true},
+        where:{
+          isdeleted: false,
+        }
+      })
+      return sort;
+    }
+     
+    }catch(error) {
       throw error;
     }
   }
