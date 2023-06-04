@@ -551,6 +551,35 @@ h4 {
 #name, #price{
   cursor: pointer;
 }
+.center {
+    text-align: center;
+    font-family: monospace;
+}
+
+.pagination {
+    display: inline-block;
+}
+
+.pagination span {
+    color: #000000;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .5s;
+    border: 1px solid #DDD;
+    margin: 0 4px;
+    font-size: 20px;
+}
+
+.pagination span.active {
+    background-color: #0096FF;
+    color: #FFFFFF;
+    border: 1px solid #0096FF;
+}
+
+.pagination span:hover:not(.active) {
+    background-color: #DDD;
+}
     </style>
   </head>
 
@@ -717,6 +746,15 @@ h4 {
                 </div>
               </div>
             </div>
+            <div class="center">
+              <div class="pagination">
+                  <%for(var i = 1; i <= lastPage; i++) { %>
+                  
+                  <span class="page" id="<%=i%>" onclick="pagination('<%=i%>')"><%=i%></span>
+                 <% } %>
+                  
+              </div>
+          </div>
           </main>
         </div>
       </div>
@@ -726,6 +764,26 @@ h4 {
    
     <script>
 
+async function pagination(page){
+       console.log(page);
+       var set = '';
+       
+       await axios.post(`/admin/products/page?page=${page}`).then(function (response) { 
+          console.log("",response.data);
+          for(var i=0;i<response.data.length;i++){
+            var category='';
+          for(var j=0 ; j<response.data[i].category.length; j++){ 
+           category+=response.data[i].category[j].name+','; 
+          }
+          console.log(category);
+         set+=`<tr > <td>${response.data[i].name }</td> <td>${ response.data[i].price }</td> <td><img src="/uploads/${response.data[i].image}"></td> <td>${category}</td> <td>${ response.data[i].description }</td> <td class="text-end"> <button type="button" id="editbutton" class="login-trigger btn btn-sm btn-neutral" data-target="#login" data-toggle="modal" onclick="return editUser('${ response.data[i].id }')">Edit</button> <button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover" onclick=" userdelete('${ response.data[i].id }')"> <i class="bi bi-trash"></i> </button> </td> </tr>`
+        }
+            console.log(set);
+            document.getElementById("change").innerHTML=set;;
+
+       });
+     } 
+
 async function searching(){
 
 var val= document.getElementById("search").value
@@ -734,9 +792,10 @@ var set = '';
 await axios.get(`/admin/products/search-product?data=${val}`).then(function (response) { 
  console.log("datt ===",response.data);
 
-var category='';
+
 
  for(var i=0;i<response.data.length;i++){
+  var category='';
    for(var j=0 ; j<response.data[i].category.length; j++){ 
     category+=response.data[i].category[j].name+','; 
    }

@@ -124,21 +124,37 @@ export class AdminService {
     }
   }
 
-  async readUser(res: Response) {
+  async readUser(req,res: Response) {
     // console.log('service', dto.category);
 
     try {
+      const total = await this.prisma.user.count({
+        where:{
+        isdeleted :false,
+        id: { gt: 1 },
+      }
+    });
+    console.log('total', total);
+    const page =  req.query.page||1;
+    const perPage =  2;
+
+    const skip = page > 0 ? perPage * (page - 1) : 0;
       const user = await this.prisma.user.findMany({
+        skip:skip,
+        take:perPage,
         where: {
           isdeleted: false,
           id: { gt: 1 },
         },
         include: { role: true },
       });
+      const lastPage = Math.ceil(total / perPage);
+
       console.log(user);
 
       res.render('admin-user', {
         user: user,
+        lastPage:lastPage
       });
 
     } catch (error) {
@@ -300,25 +316,32 @@ export class AdminService {
     }
   }
 
-    async search(data,res) {
+    async search(req,res) {
       try {
+        const page =  req.page||1;
+        const perPage =  2;
+    
+        const skip = page > 0 ? perPage * (page - 1) : 0;
         const search = await this.prisma.user.findMany({
+          skip:skip,
+          take:perPage,
           where: {
             AND:[
               {
                 isdeleted:false,
+                id: { gt: 1 },
               },
               {
 
                 OR: [
                   {
                     email: {
-                      startsWith: data,
+                      startsWith: req.data,
                     },
                   },
                   {
                     name: {
-                      startsWith: data,
+                      startsWith: req.data,
                     }
                   },
                   
@@ -338,26 +361,36 @@ export class AdminService {
     }
 
     async sort(req, res) {
+      const page =  req.page||1;
+        const perPage =  2;
+    
+        const skip = page > 0 ? perPage * (page - 1) : 0;
       try{
         if(req.data=='name'){
         const sort = await this.prisma.user.findMany({
+          skip:skip,
+          take:perPage,
           orderBy:{
             name: req.type,
           },
           include:{role:true},
           where:{
             isdeleted: false,
+            id: { gt: 1 },
           }
         })
         return sort;
       }else if(req.data=='email'){
         const sort = await this.prisma.user.findMany({
+          skip:skip,
+          take:perPage,
           orderBy:{
             email: req.type,
           },
           include:{role:true},
           where:{
             isdeleted: false,
+            id: { gt: 1 },
           }
         })
         return sort;
@@ -367,4 +400,28 @@ export class AdminService {
         throw error;
       }
     }
+
+    async pagination(req, res) {
+      try {
+        
+        const page =  req.query.page||1;
+        const perPage =  2;
+    
+        const skip = page > 0 ? perPage * (page - 1) : 0;
+        const category = await this.prisma.user.findMany({
+          skip: skip,
+          take: perPage,
+          include:{role:true},
+          where:{
+            isdeleted :false,
+            id: { gt: 1 },
+          }
+        });
+      
+        return category;
+      } catch (error) {
+        throw error;
+      }
+    }
+  
 }

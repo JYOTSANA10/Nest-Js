@@ -99,7 +99,7 @@ export class ProductsController {
   async User(@Req() req, @Res() res) {
     console.log('user', req.query.data);
 
-    const data = await this.productsService.search(req.query.data, res);
+    const data = await this.productsService.search(req, res);
 
     res.send(data);
   }
@@ -110,6 +110,14 @@ export class ProductsController {
 
     const data = await this.productsService.sort(req.query, res);
 
+    res.send(data);
+  }
+
+  @Post('/page')
+  async Pagination(@Req() req, @Res() res) {
+    // console.log('findAll');
+
+    const data= await this.productsService.pagination(req, res);
     res.send(data);
   }
 }

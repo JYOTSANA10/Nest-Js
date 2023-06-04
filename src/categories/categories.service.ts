@@ -138,9 +138,15 @@ export class CategoriesService {
     }
   }
 
-  async search(data, res) {
+  async search(req, res) {
     try {
+      const page =  req.page||1;
+      const perPage =  2;
+  
+      const skip = page > 0 ? perPage * (page - 1) : 0;
       const search = await this.prisma.category.findMany({
+        skip: skip,
+        take: perPage,
         where: {
           AND:[
             {
@@ -150,7 +156,7 @@ export class CategoriesService {
               OR: [
                 {
                   name: {
-                    startsWith: data,
+                    startsWith: req.data,
                   },
                 },
                 

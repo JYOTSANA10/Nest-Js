@@ -74,7 +74,7 @@ export class CategoriesController {
   async User(@Req() req, @Res() res) {
     console.log("user",req.query.data);
 
-    const data= await this.categoriesService.search(req.query.data,res)
+    const data= await this.categoriesService.search(req.query,res)
 
     res.send(data)
   }

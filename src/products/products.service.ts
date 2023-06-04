@@ -67,16 +67,29 @@ export class ProductsService {
   async findAll(req, res) {
     try {
       // console.log('Category');
+      const total = await this.prisma.product.count({
+        where:{
+        isdeleted :false,
+      }
+    });
+    const page =  req.query.page||1;
+      const perPage =  2;
+  
+      const skip = page > 0 ? perPage * (page - 1) : 0;
       const product = await this.prisma.product.findMany({
+        skip: skip,
+        take: perPage,
         include: { category: true },
         where: {
           isdeleted: false,
         },
       });
       // console.log(product);
+      const lastPage = Math.ceil(total / perPage);
 
       res.render('products', {
         product: product,
+        lastPage: lastPage
       });
     } catch (error) {
       throw error;
@@ -197,9 +210,15 @@ export class ProductsService {
     }
   }
 
-  async search(data, res) {
+  async search(req, res) {
     try {
+      const page =  req.query.page||1;
+      const perPage =  2;
+  
+      const skip = page > 0 ? perPage * (page - 1) : 0;
       const search = await this.prisma.product.findMany({
+        skip: skip,
+        take: perPage,
         include:{category:true},
         where: {
 
@@ -211,13 +230,13 @@ export class ProductsService {
               OR: [
                 {
                   name: {
-                    startsWith: data,
+                    startsWith: req.query.data,
                   },
                 },
                
                 {
                   description: {
-                    startsWith: data,
+                    startsWith: req.query.data,
                   },
                 },
               ],
@@ -235,8 +254,15 @@ export class ProductsService {
 
   async sort(req, res) {
     try{
+
+      const page =  req.page||1;
+      const perPage =  2;
+  
+      const skip = page > 0 ? perPage * (page - 1) : 0;
       if(req.data=='name'){
       const sort = await this.prisma.product.findMany({
+        skip: skip,
+        take: perPage,
         orderBy:{
           name: req.type,
         },
@@ -247,7 +273,10 @@ export class ProductsService {
       })
       return sort;
     }else if(req.data=='price'){
+      
       const sort = await this.prisma.product.findMany({
+        skip: skip,
+        take: perPage,
         orderBy:{
           price: req.type,
         },
@@ -263,4 +292,26 @@ export class ProductsService {
       throw error;
     }
   }
+
+  async pagination(req, res) {
+    try {
+      
+      const page =  req.query.page||1;
+      const perPage =  2;
+  
+      const skip = page > 0 ? perPage * (page - 1) : 0;
+      const product = await this.prisma.product.findMany({
+        skip: skip,
+        take: perPage,
+        include:{category:true},
+        where:{
+          isdeleted :false,
+        }
+      });
+    
+      return product;
+    } catch (error) {
+      throw error;
+    }
+}
 }

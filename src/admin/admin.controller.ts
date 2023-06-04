@@ -37,7 +37,7 @@ export class AdminController {
   async User(@Req() req, @Res() res) {
     console.log("user",req.query.data);
 
-    const data= await this.adminservice.search(req.query.data,res)
+    const data= await this.adminservice.search(req.query,res)
 
     res.send(data)
   }
@@ -80,11 +80,11 @@ export class AdminController {
   }
 
   @Get('user')
-  readUser(@Res() res) {
+  readUser(@Req() req,@Res() res) {
     // console.log(res.body);
     // const res2=res.body;
     // let res3 = JSON.parse(res2.toString());
-    return this.adminservice.readUser(res);
+    return this.adminservice.readUser(req,res);
   }
 
   @Get('edit-user')
@@ -123,6 +123,14 @@ export class AdminController {
 
     const data = await this.adminservice.sort(req.query, res);
 
+    res.send(data);
+  }
+
+  @Post('/page')
+  async Pagination(@Req() req, @Res() res) {
+    // console.log('findAll');
+
+    const data= await this.adminservice.pagination(req, res);
     res.send(data);
   }
 }

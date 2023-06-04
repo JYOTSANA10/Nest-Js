@@ -32,6 +32,7 @@ model product {
   isdeleted Boolean        @default(false)
   createdAt DateTime @default(now()) @db.Timestamp(0)
   cart  cart[]
+  orderProduct orderProduct[]
   
 }
 
@@ -78,7 +79,19 @@ model order{
   id         Int      @id @default(autoincrement())@unique
   user_id Int
   user   user    @relation(fields: [user_id], references: [id])
-  cart_id String @db.VarChar(45)
-  
+  orderProduct orderProduct[]
+  total_amount Int @default(0)
    createdAt DateTime @default(now()) @db.Timestamp(0)
+}
+
+
+model orderProduct{
+  id Int @id @default(autoincrement())@ unique
+  order_id Int
+  order   order    @relation(fields: [order_id], references: [id])
+  product_id Int
+  product   product    @relation(fields: [product_id], references: [id])
+  number_of_items Int  @default(1)
+  createdAt DateTime @default(now()) @db.Timestamp(0)
+
 }

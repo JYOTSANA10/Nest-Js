@@ -49,7 +49,7 @@ export class UserController {
   async Order(@Req() req, @Res() res) {
     console.log('order', req.query);
 
-    return await this.userService.order(req, res);
+    // return await this.userService.order(req, res);
   }
 
   @Get('/final')

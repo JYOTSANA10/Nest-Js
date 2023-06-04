@@ -548,6 +548,35 @@ h4 {
 #name, #email{
   cursor: pointer;
 }
+.center {
+    text-align: center;
+    font-family: monospace;
+}
+
+.pagination {
+    display: inline-block;
+}
+
+.pagination span {
+    color: #000000;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .5s;
+    border: 1px solid #DDD;
+    margin: 0 4px;
+    font-size: 20px;
+}
+
+.pagination span.active {
+    background-color: #0096FF;
+    color: #FFFFFF;
+    border: 1px solid #0096FF;
+}
+
+.pagination span:hover:not(.active) {
+    background-color: #DDD;
+}
     </style>
   </head>
 
@@ -711,6 +740,16 @@ h4 {
                 </div>
               </div>
             </div>
+
+            <div class="center">
+              <div class="pagination">
+                  <%for(var i = 1; i <= lastPage; i++) { %>
+                  
+                  <span class="page" id="<%=i%>" onclick="pagination('<%=i%>')"><%=i%></span>
+                 <% } %>
+                  
+              </div>
+          </div>
           </main>
         </div>
       </div>
@@ -719,6 +758,22 @@ h4 {
     <!-- =========== Scripts =========  -->
    
     <script>
+
+async function pagination(page){
+       console.log(page);
+       var set = '';
+       
+       await axios.post(`/admin/page?page=${page}`).then(function (response) { 
+          console.log("",response.data);
+          for(var i=0;i<response.data.length;i++){
+            set+=`<tr><td>${ response.data[i].name }</td><td>${ response.data[i].email}</td><td>${ response.data[i].role.name }</td><td class="text-end"><button type="button" id="editbutton" class="login-trigger btn btn-sm btn-neutral" data-target="#login" data-toggle="modal" onclick="return editUser('${ response.data[i].id}')">Edit</button><button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover" onclick=" userdelete('${ response.data[i].id }')"><i class="bi bi-trash"></i></button></td></tr>`
+
+          }
+             console.log(set);
+           document.getElementById("change").innerHTML=set;
+
+       });
+     } 
 
 async function searching(){
 
