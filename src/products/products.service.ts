@@ -189,6 +189,10 @@ export class ProductsService {
   async remove(req, res) {
     try {
       // console.log('try');
+      const page =  req.query.page||1;
+      const perPage =  2;
+  
+      const skip = page > 0 ? perPage * (page - 1) : 0;
       await this.prisma.product.update({
         data: {
           isdeleted: true,
@@ -199,9 +203,12 @@ export class ProductsService {
       });
 
       const product = await this.prisma.product.findMany({
+        skip:skip,
+        take:perPage,
         where: {
           isdeleted: false,
         },
+        include:{category:true}
       });
 
       return product;

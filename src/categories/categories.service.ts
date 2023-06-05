@@ -116,16 +116,24 @@ export class CategoriesService {
 
     try {
       // console.log('try');
+      const page =  req.query.page||1;
+      const perPage =  2;
+  
+      const skip = page > 0 ? perPage * (page - 1) : 0;
        await this.prisma.category.update({
+       
         data: {
           isdeleted: true,
         },
         where: {
           id: +req.query.id,
         },
+       
       });
 
       const category = await this.prisma.category.findMany({
+        skip:skip,
+        take:perPage,
         where:{
           isdeleted :false,
         }

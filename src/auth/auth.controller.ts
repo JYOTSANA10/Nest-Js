@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { Request } from 'express';
 import { AuthDto } from './dto';
 import { AuthGuard } from '@nestjs/passport';
+import { log } from 'handlebars';
 // import { AdminRoleGuard } from 'src/auth/admin-role.guard';
 
 
@@ -35,7 +36,6 @@ export class AuthContoller {
     
   }
 
-  // @UseGuards(AdminRoleGuard)
   @Post('login')
   login(@Body() dto2: AuthDto,@Res() res) {
     // console.log(dto2);
@@ -51,4 +51,34 @@ export class AuthContoller {
 
   }
 
+  @Get('forgot')
+  @Render('forgot.ejs')
+  form(){
+    console.log('forgot');
+    
+  }
+
+  @Post('forgot')
+  async formData(@Req() req,@Res() res){
+    console.log('email: ' + req.body.email);
+
+    return await  this.authservice.formData(req,res);
+    
+  }
+
+  @Get('reset')
+  async reset(@Req() req,@Res() res){
+    console.log('reset: ' + req.query.email);
+
+    return await  this.authservice.reset(req,res);
+    
+  }
+
+  @Post('reset')
+  async resetData(@Req() req,@Res() res){
+    console.log('data: ' + req.body.password);
+
+    return await  this.authservice.resetData(req,res);
+    
+  }
 }

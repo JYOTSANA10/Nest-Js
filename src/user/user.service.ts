@@ -18,11 +18,17 @@ export class UserService {
       //   console.log(product);
 
       // return product;
+      const category = await this.prisma.category.findMany({
+        where:{
+          isdeleted :false,
+        }
+      });
 
       res.render('user-product', {
         product: product,
         cart,
         user_id,
+        category:category
       });
     } catch (error) {
       throw error;
@@ -44,10 +50,13 @@ export class UserService {
         },
       });
 
+    
+
       console.log(cart);
       res.render('user-product', {
         cart: cart,
         product: product,
+       
       });
     } catch (error) {
       throw error;
@@ -86,6 +95,7 @@ export class UserService {
         data: {
           // cart_id: cart_id,
           user: { connect: { id: +req.user.userId } },
+          total_amount: +req.query.total
         },
       });
       console.log(cart);
@@ -131,6 +141,7 @@ export class UserService {
       for(var i = 0; i < orders.length; i++){
       const product = await this.prisma.orderProduct.findMany({
         where: { order_id: +orders[i].id },
+        include: {product:true}
       });
       console.log("product",product);
       
@@ -141,6 +152,62 @@ export class UserService {
         orders: orders,
         product:product_arr,
       });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async findAll(req, res) {
+    try {
+      console.log('Category');
+      const total = await this.prisma.category.count({
+          where:{
+          isdeleted :false,
+        }
+      });
+      console.log('total', total);
+      const page =  req.query.page||1;
+      const perPage =  2;
+  
+      const skip = page > 0 ? perPage * (page - 1) : 0;
+      const category = await this.prisma.category.findMany({
+        where:{
+          isdeleted :false,
+        }
+      });
+      const lastPage = Math.ceil(total / perPage);
+      res.render('category-page', {
+        category: category,
+        lastPage: lastPage
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async category(req, res) {
+    try {
+      console.log('Category');
+      const category = await this.prisma.category.findFirst({
+        where:{
+          name: req.query.category
+        },
+        include:{product: true}
+      })
+      console.log("category===", category);
+      
+     
+      // const product = await this.prisma.product.findMany({
+      //   include:{category:{where:{id: category.id}}},
+      //   where:{
+      //     isdeleted :false,
+       
+      //   },
+      
+      // });
+      // console.log("product",product);
+      
+      return category;
     } catch (error) {
       throw error;
     }

@@ -47,9 +47,13 @@ export class UserController {
   @Post('/order')
   @UseGuards(AuthGuard('jwt'))
   async Order(@Req() req, @Res() res) {
-    console.log('order', req.query);
-
-    // return await this.userService.order(req, res);
+    console.log('order', req.query.total);
+    if (req.query.total == 0) {
+      res.send("no") ;
+    }else{
+     
+      return await this.userService.order(req, res);
+    }
   }
 
   @Get('/final')
@@ -65,4 +69,20 @@ export class UserController {
 
     return await this.userService.orderList(req, res);
   }
+
+  @Get("/category-list")
+  async CategoryList(@Req() req, @Res() res) {
+    console.log("Category list");
+    const data= await this.userService.findAll(req, res);
+  }
+
+  @Post('/category-page')
+  async findAll(@Req() req, @Res() res) {
+    console.log('cat',req.query.category);
+
+    const data= await this.userService.category(req, res);
+    res.send(data);
+  }
+
+  
 }

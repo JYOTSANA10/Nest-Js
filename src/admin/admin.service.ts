@@ -10,25 +10,24 @@ import { where } from 'sequelize';
 export class AdminService {
   constructor(private prisma: PrismaService) {}
 
-  // async addProduct(dto: AdminDto) {
-  //   // console.log('service', dto.category);
+  async admin(req,res) {
+    // console.log('service', dto.category);
 
-  //   try {
-  //     // console.log("try");
+    try {
+      // console.log("try");
 
-  //     const product = await this.prisma.product.create({
-  //       data: {
-  //         name: dto.name,
-  //         price: dto.price,
-  //         category: dto.category,
-  //       },
-  //     });
+      const orders = await this.prisma.order.findMany({
+        include:{user:true}
+      });
 
-  //     return product;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // }
+      console.log(orders);
+      
+     return orders;
+    
+    } catch (error) {
+      throw error;
+    }
+  }
 
   // async readProduct() {
   //   try {

@@ -28,9 +28,12 @@ export class AdminController {
     action:'create',
     resource:'product'
   })
-  @Render('admindashboard.ejs')
-  Admin(@Req() req) {
-    console.log('admin');
+ 
+  async Admin(@Req() req,@Res() res) {
+    const orders= await this.adminservice.admin(req,res)
+    res.render('admindashboard.ejs',{
+      orders:orders
+     })
   }
 
   @Get('search')

@@ -193,6 +193,9 @@
         .detail-qty{display:flex;align-items:center;}
         .detail-qty a{width:23px;height:19px;color:#ffffff;background-color:#333333;border-radius:15px;line-height:23px;text-align:center;text-decoration:none;display:flex;align-items:center;justify-content:center;font-size:34px;font-family:cursive;padding-bottom:5px;}
         .detail-qty .qty-val{width:50px;height:30px;text-align:center;border:1px solid #333333;border-radius:0;margin:0 8px;}
+        .qty-down, .qty-up,.close_iteam{
+            cursor: pointer;
+        }
 </style>
 </head>
 <body>
@@ -261,7 +264,12 @@
         </ul>
         <div class="shopping_detail-btns">
             <button class="ui-btn"><a href="/user-dashboard/product" class="ui-btn">Go to Product-Page </a></button>
-            <button class="ui-btn"><a href="/user-dashboard/confirm" class="ui-btn" name="add-to-cart" >Buy Now</a></button>
+            <%if(total==0) { %>
+            <button class="ui-btn"><a href="/user-dashboard/product" class="ui-btn" name="add-to-cart" >Buy Now</a></button>
+            <%}else{%>
+                <button class="ui-btn"><a href="/user-dashboard/confirm" class="ui-btn" name="add-to-cart" >Buy Now</a></button>
+
+            <%}%>
         </div>
     </div>
     <script>

@@ -7,6 +7,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { AuthContoller } from './auth.controller';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable({})
 export class AuthService {
@@ -14,6 +15,7 @@ export class AuthService {
     private prisma: PrismaService,
     private jwt: JwtService,
     private config: ConfigService,
+    private mailerService: MailerService,
   ) {}
 
   async register(email: string, pass: string, req: Request, res: Response) {
@@ -24,7 +26,7 @@ export class AuthService {
         data: {
           email: email,
           pass: hash,
-          role_id:2,
+          role_id: 2,
         },
       });
 
@@ -44,7 +46,7 @@ export class AuthService {
     }
   }
 
-  async login(dto2: AuthDto,res) {
+  async login(dto2: AuthDto, res) {
     console.log('dto2', dto2);
 
     const user = await this.prisma.user.findUnique({
@@ -64,37 +66,33 @@ export class AuthService {
       throw new ForbiddenException('Credentials Incorrect');
     }
 
-    const token= await this.signToken(user.id, user.email,user.role_id);
+    const token = await this.signToken(user.id, user.email, user.role_id);
 
     // const token = await this.signToken(
     //   userId: user.id,
     //   email: user.email,
-      
+
     // );
     console.log(token);
-    
 
     if (!token) {
       throw new ForbiddenException();
     }
     res.cookie('token', token);
 
-    if(user.role_id==2){
-      console.log("USer");
-      
-      res.redirect('/user-dashboard/product')
-    }else if(user.role_id==1){
-      console.log("Admin");
+    if (user.role_id == 2) {
+      console.log('USer');
+
+      res.redirect('/user-dashboard/product');
+    } else if (user.role_id == 1) {
+      console.log('Admin');
 
       res.redirect('/admin');
     }
-   
-
-    
   }
 
-  signToken(userId: number, email: string,role:number) {
-    const payload = { id:userId, email:email,role:role };
+  signToken(userId: number, email: string, role: number) {
+    const payload = { id: userId, email: email, role: role };
     const secret = this.config.get('SECREAT_KEY');
 
     return this.jwt.signAsync(payload, {
@@ -103,14 +101,66 @@ export class AuthService {
     });
   }
 
-  async signOut(req,res){
+  async signOut(req, res) {
     try {
-      const clear=await res.clearCookie('token');
+      const clear = await res.clearCookie('token');
       // console.log("clear",clear);
-      
-      res.redirect('/auth/login')
 
-    }catch(error) {
+      res.redirect('/auth/login');
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async formData(req, res) {
+    try {
+      console.log(req.body.email);
+      var email = await req.body.email;
+      await this.mailerService.sendMail({
+        to: `${email}`,
+        from: this.config.get('EMAIL_USER'),
+        subject: 'Reset Password',
+        html:
+          '<h1>Link</h1> <a href="http://localhost:3000/auth/reset?email=' +
+          email +
+          '" >Reset Password</a>',
+      });
+
+      res.send("Success");
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async reset(req,res){
+    try{
+      console.log(req.query.email);
+      res.render('reset',{
+        email:req.query.email,
+      })
+
+    }catch(error){
+      throw error;
+    }
+  }
+
+  async resetData(req,res){
+    try{
+
+      const hash = await argon.hash(req.body.password);
+      const update=await this.prisma.user.update({
+        data:{
+          pass:hash
+        },
+        where:{
+          email:req.body.email
+        }
+      })
+      console.log('update',update);
+      res.redirect('/auth/login');
+      
+
+    }catch(error){
       throw error;
     }
   }
