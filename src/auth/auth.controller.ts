@@ -81,4 +81,13 @@ export class AuthContoller {
     return await  this.authservice.resetData(req,res);
     
   }
+
+  @Post('email')
+  async email( @Req() req, @Res() res){
+    console.log('user', req);
+    const data= await this.authservice.email(req,res);
+    console.log("data===", data);
+    
+    res.send(data);
+  }
 }

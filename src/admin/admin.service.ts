@@ -1,4 +1,4 @@
-import { Injectable, Redirect } from '@nestjs/common';
+import { HttpStatus, Injectable, Redirect } from '@nestjs/common';
 import express, { Request, Response } from 'express';
 import * as argon from 'argon2';
 
@@ -90,6 +90,33 @@ export class AdminService {
     }
   }
 
+  async email(req, res) {
+    try{
+
+      const email=await this.prisma.user.findUnique({
+        where:{
+          email:req.query.email,
+          
+        }
+      })
+
+      console.log("check", email);
+
+      if(email){
+        console.log("if");
+        
+        return "already";
+      }else{
+        console.log("else");
+
+        return "email";
+      }
+
+    }catch(error){
+      throw error;
+    }
+  }
+
   async addUser(req, res) {
     // console.log('service', dto.category);
 
@@ -97,6 +124,8 @@ export class AdminService {
 
     try {
       console.log('try', req);
+      
+      
       if (req.role == 'User') {
         await this.prisma.user.create({
           data: {
@@ -182,7 +211,8 @@ export class AdminService {
       res.render('edit-form', {
         user: user,
         role: role,
-      });
+      }).status(HttpStatus.OK)
+      
     } catch (error) {
       throw error;
     }
@@ -229,15 +259,23 @@ export class AdminService {
 
     try {
       // console.log("try");
+      const page =  req.query.page||1;
+    const perPage =  2;
+
+    const skip = page > 0 ? perPage * (page - 1) : 0;
       await this.prisma.user.update({
+       
         data: {
           isdeleted: true,
         },
         where: {
           id: +req.query.id,
         },
+       
       });
       const user = await this.prisma.user.findMany({
+        skip: skip,
+        take:perPage,
         where: {
           isdeleted: false,
           id: { gt: 1 },
@@ -300,6 +338,7 @@ export class AdminService {
 
     try {
       // console.log("try");
+      
       const category = await this.prisma.category.update({
         data: {
           isdeleted: true,

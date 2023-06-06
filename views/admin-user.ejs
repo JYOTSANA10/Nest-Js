@@ -787,7 +787,6 @@ await axios.get(`/admin/search?data=${val}`).then(function (response) {
  for(var i=0;i<response.data.length;i++){
   set+=`<tr><td>${ response.data[i].name }</td><td>${ response.data[i].email}</td><td>${ response.data[i].role.name }</td><td class="text-end"><button type="button" id="editbutton" class="login-trigger btn btn-sm btn-neutral" data-target="#login" data-toggle="modal" onclick="return editUser('${ response.data[i].id}')">Edit</button><button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover" onclick=" userdelete('${ response.data[i].id }')"><i class="bi bi-trash"></i></button></td></tr>`
 }
-  console.log(set);
   document.getElementById("change").innerHTML=set;
 });
 
@@ -801,7 +800,6 @@ await axios.get(`/admin/search?data=${val}`).then(function (response) {
           for(var i=0;i<response.data.length;i++){
   set+=`<tr><td>${ response.data[i].name }</td><td>${ response.data[i].email}</td><td>${ response.data[i].role.name }</td><td class="text-end"><button type="button" id="editbutton" class="login-trigger btn btn-sm btn-neutral" data-target="#login" data-toggle="modal" onclick="return editUser('${ response.data[i].id}')">Edit</button><button type="button" class="btn btn-sm btn-square btn-neutral text-danger-hover" onclick=" userdelete('${ response.data[i].id }')"><i class="bi bi-trash"></i></button></td></tr>`
 }
-  console.log(set);
   document.getElementById("change").innerHTML=set;
 
         });
@@ -842,7 +840,6 @@ await axios.get(`/admin/search?data=${val}`).then(function (response) {
 
 
 }
-  console.log(set);
   document.getElementById("change").innerHTML=set;
     });
 
@@ -855,7 +852,7 @@ await axios.get(`/admin/search?data=${val}`).then(function (response) {
       console.log("else",number%2==0);
     var sort_type = 'asc';
     await axios.post(`/admin/sort-user?data=${sort}&type=${sort_type}`).then(function (response){
-      console.log(response);
+      // console.log(response);
 
  for(var i=0;i<response.data.length;i++){
   
@@ -863,7 +860,6 @@ await axios.get(`/admin/search?data=${val}`).then(function (response) {
 
 
 }
-  console.log(set);
   document.getElementById("change").innerHTML=set;
     });
 

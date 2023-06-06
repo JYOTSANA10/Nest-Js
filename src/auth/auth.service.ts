@@ -164,4 +164,31 @@ export class AuthService {
       throw error;
     }
   }
+
+  async email(req, res) {
+    try{
+
+      const email=await this.prisma.user.findUnique({
+        where:{
+          email:req.query.email,
+          
+        }
+      })
+
+      console.log("check", email);
+
+      if(email){
+        console.log("if");
+        
+        return email;
+      }else{
+        console.log("else");
+
+        return "email";
+      }
+
+    }catch(error){
+      throw error;
+    }
+  }
 }

@@ -21,8 +21,6 @@ export class UserController {
   ) {}
 
   @Get('/product')
-  @UseGuards(AdminRoleGuard)
-  @UseGuards(AuthGuard('jwt'))
   async UserData(@Req() req, @Res() res) {
     // console.log("req",req['user']);
 

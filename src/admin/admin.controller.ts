@@ -82,6 +82,15 @@ export class AdminController {
     return this.adminservice.addUser(req,res);
   }
 
+  @Post('email')
+  async email( @Req() req, @Res() res){
+    console.log('user', req);
+    const data= await this.adminservice.email(req,res);
+    console.log("data===", data);
+    
+    res.send(data);
+  }
+
   @Get('user')
   readUser(@Req() req,@Res() res) {
     // console.log(res.body);

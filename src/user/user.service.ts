@@ -73,17 +73,20 @@ export class UserService {
       include: { product: true },
     });
     console.log(show_cart);
-    var cart = [];
-    for (var i = 0; i < show_cart.length; i++) {
-      cart.push(show_cart[i].id);
-    }
+   
 
-    console.log(cart);
+    console.log("cart",show_cart.length );
+    if(show_cart.length==0){
+      return "empty";
+    }else{
+      
 
     res.render('order', {
       show_cart: show_cart,
-      cart: cart,
+     
     });
+   
+  }
   }
 
   async order(req, res) {

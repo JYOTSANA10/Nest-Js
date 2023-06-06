@@ -20,6 +20,8 @@
   
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
   <style>
   body{
     height: 100vh;
@@ -113,7 +115,8 @@
           <h4>User</h4>
           <%if(user=='undefined'){%>
             <input type="text" name="name" class="username form-control" placeholder="Name" >
-            <input type="email" name="email" class="password form-control" placeholder="Email" >
+            <input type="email" name="email" id="email1" class="password form-control" placeholder="Email"  onkeyup="emailCheck()" >
+            <span class="error" id="error"></span>
             <select name="role" id="role" class="form-control">
               <%for(var i=0; i<role.length; i++){%>
                 
@@ -128,7 +131,7 @@
 
           <input type="text" name="name" class="username form-control" placeholder="Name" value="<%= user.name%>">
           <input type="email" name="email" class="password form-control" placeholder="Email" value="<%= user.email%>">
-            <select name="role" id="role" class="form-control">
+            <select name="role" id="role" class="form-control" >
             <%for(var i=0; i<role.length; i++){%>
              <% if(user.role.name== role[i].name){%>
              <option value="<%= user.role.name%>" selected><%= user.role.name%></option>
@@ -143,7 +146,7 @@
           
             
 
-            <input class="btn login" type="submit" value="Submit">
+            <input class="btn login" type="submit" value="Submit" id="submit">
           
         </div>
       </div>
@@ -159,4 +162,27 @@
   
   <div class="modal-backdrop fade in"></div>
 </form>
+
+<script>
+  async function emailCheck(){
+    var email= document.getElementById("email1").value
+     console.log(email);
+     await axios.post(`/admin/email?email=${email}`).then(function (response) { 
+      console.log("datt ===",response.data);
+
+      if(response.data=='already'){
+        console.log("already");
+        var email= document.getElementById("error").innerText="Email is already registered"
+        var email= document.getElementById("submit").disabled = true;
+
+
+      }else{
+        var email= document.getElementById("error").innerText="";
+        var email= document.getElementById("submit").disabled = false;
+
+
+      }
+     })
+  }
+</script>
 </body></html>

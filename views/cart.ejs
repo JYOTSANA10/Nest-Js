@@ -265,14 +265,23 @@
         <div class="shopping_detail-btns">
             <button class="ui-btn"><a href="/user-dashboard/product" class="ui-btn">Go to Product-Page </a></button>
             <%if(total==0) { %>
-            <button class="ui-btn"><a href="/user-dashboard/product" class="ui-btn" name="add-to-cart" >Buy Now</a></button>
+            <button class="ui-btn" onclick="placeOrder()" name="add-to-cart" onclick="placeOrder()" >Buy Now</a></button>
             <%}else{%>
                 <button class="ui-btn"><a href="/user-dashboard/confirm" class="ui-btn" name="add-to-cart" >Buy Now</a></button>
 
             <%}%>
         </div>
     </div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <script>
+        function placeOrder(){
+           
+                    console.log("If");
+	                swal("Cart is empty!");
+
+                
+        }
 
 
 
@@ -330,7 +339,6 @@
 
                     set+=`<li class="shopping_detail_iteam"> <div class="shopping_detail_iteam--img"> <img src="/uploads/${response.data[i].product.image}" > </div> <div class="shopping_detail_iteam--col"> <div class="shopping_detail_title"> <h4>${response.data[i].product.name}</h4> </div> <div class="shopping_detail_value_price"> <div class="shopping_detail_value"> <div class="qty-box"> <div class="detail-qty info-qty"> <span class="qty-down" onclick="minus('${response.data[i].id}')">−</span> <input type="text" data-step="1" min="1" max="10" name="quantity" value="${response.data[i].number_of_items}" title="Qty" class="qty-val" size="4" > <span class="qty-up" onclick="plus('${response.data[i].id }')">+</span> </div> </div> </div> <div class="shopping_detail_price"> <span>${response.data[i].product.price}</span> </div> </div> <div class="close_iteam"> <span onclick="delete_product('${response.data[i].id}')">×</span> </div> </div> </li>`
                 }
-                console.log(set);
                     document.getElementById("change").innerHTML=set;
                     document.getElementById("change2").innerHTML=total;
                     

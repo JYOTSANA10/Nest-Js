@@ -1,5 +1,7 @@
 <html>
   <head>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <style>
       .container {
         max-width: 1170px;
@@ -87,7 +89,7 @@
                 <div class="user">
                   <div class="div">
                     <label for="email">Email</label><br />
-                    <input type="text" id="email" name="email" />
+                    <input type="text" id="email" name="email" onkeyup="emailCheck()"/>
                     <span id="email-error" class="error"></span>
                   </div>
                   <div class="div">
@@ -124,5 +126,32 @@
         </section>
       </div>
     </form>
+
+    <script>
+      async function emailCheck(){
+    var email= document.getElementById("email").value
+     console.log(email);
+     await axios.post(`/auth/email?email=${email}`).then(function (response) { 
+      console.log("datt ===",response.data);
+
+      if(!response.data.email){
+        console.log("if");
+        var email= document.getElementById("email-error").innerText="Email is Not Registered"
+        var email= document.getElementById("submit").disabled = true;
+
+
+      }else{
+        console.log("else");
+
+        var email= document.getElementById("email-error").innerText="";
+        var email= document.getElementById("submit").disabled = false;
+
+        
+
+
+      }
+     })
+  }
+  </script>
   </body>
 </html>
