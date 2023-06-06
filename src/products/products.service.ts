@@ -153,11 +153,34 @@ export class ProductsService {
   }
 
   async update(updateProductDto: UpdateProductDto, res) {
-    console.log('update data in product=', typeof updateProductDto.category);
+    console.log('update data in product=', updateProductDto);
 
     try {
       if (typeof updateProductDto.category == 'string') {
         console.log("if");
+
+        const dis_category= await this.prisma.product.findUnique({
+          where:{
+           id:Number(updateProductDto.id),
+          },
+          include:{
+           category:{select:{
+             id:true
+           }}
+          }
+         })
+         console.log("dis_category",dis_category.category);
+         
+         const dis=await this.prisma.product.update({
+           where:{
+             id:Number(updateProductDto.id),
+           },
+           data:{
+             category:{
+               disconnect:dis_category.category
+             }
+           }
+         })
 
         const id = await this.prisma.category.findFirst({
           where: {
@@ -187,6 +210,30 @@ export class ProductsService {
         
       } else {
         console.log("else");
+        const dis_category= await this.prisma.product.findUnique({
+         where:{
+          id:Number(updateProductDto.id),
+         },
+         include:{
+          category:{select:{
+            id:true
+          }}
+         }
+        })
+        console.log("dis_category",dis_category.category);
+        
+        const dis=await this.prisma.product.update({
+          where:{
+            id:Number(updateProductDto.id),
+          },
+          data:{
+            category:{
+              disconnect:dis_category.category
+            }
+          }
+        })
+        console.log("dis",dis);
+        
         
       var id_arr = [];
       for (var i = 0; i < updateProductDto.category.length; i++) {
@@ -207,6 +254,7 @@ export class ProductsService {
       }));
 
       console.log(result);
+      
 
       const product = await this.prisma.product.update({
         where: {
