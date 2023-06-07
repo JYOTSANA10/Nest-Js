@@ -8,6 +8,8 @@ import {
   Res,
   Req,
   UseGuards,
+  ForbiddenException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import {UserDto, CategoryDto } from './dto';
@@ -30,10 +32,14 @@ export class AdminController {
   })
  
   async Admin(@Req() req,@Res() res) {
+    if(req.user.role_id == 1){
     const orders= await this.adminservice.admin(req,res)
     res.render('admindashboard.ejs',{
       orders:orders
      })
+    }else{
+      throw new UnauthorizedException();
+    }
   }
 
   @Get('search')
